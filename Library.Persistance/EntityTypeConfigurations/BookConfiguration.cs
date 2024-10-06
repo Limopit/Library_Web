@@ -39,7 +39,7 @@ public class BookConfiguration: IEntityTypeConfiguration<Book>
 
         builder.Property(book => book.book_issue_expiration_date)
             .HasColumnName("book_issue_expiration_date")
-            .HasColumnType("TEXT)")
+            .HasColumnType("TEXT")
             .IsRequired();
 
         builder.HasOne(book => book.author)

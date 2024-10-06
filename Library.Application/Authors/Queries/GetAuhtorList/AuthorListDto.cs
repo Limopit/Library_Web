@@ -4,22 +4,22 @@ using Library.Domain;
 
 namespace Library.Application.Authors.Queries.GetAuhtorList;
 
-public class AuthorListInfo: IMapWith<Author>
+public class AuthorListDto: IMapWith<Author>
 {
-    public Guid author_id { get; set; }
-    public string author_firstname { get; set; }
-    public string author_lastname { get; set; }
+    public Guid AuthorId { get; set; }
+    public string AuthorFirstname { get; set; }
+    public string AuthorLastname { get; set; }
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Author, AuthorListInfo>()
-            .ForMember(authorVM => authorVM.author_id,
+        profile.CreateMap<Author, AuthorListDto>()
+            .ForMember(authorVM => authorVM.AuthorId,
                 opt
                     => opt.MapFrom(author => author.author_id))
-            .ForMember(authorVM => authorVM.author_firstname,
+            .ForMember(authorVM => authorVM.AuthorFirstname,
                 opt
                     => opt.MapFrom(author => author.author_firstname))
-            .ForMember(authorVM => authorVM.author_lastname,
+            .ForMember(authorVM => authorVM.AuthorLastname,
                 opt
                     => opt.MapFrom(author => author.author_lastname));
     }

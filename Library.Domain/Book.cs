@@ -3,7 +3,7 @@
 public class Book
 {
     public Guid book_id { get; set; }
-    public Guid ISBN { get; set; }
+    public string ISBN { get; set; }
     public string book_name { get; set; }
     public string book_genre { get; set; }
     public string? book_description { get; set; }

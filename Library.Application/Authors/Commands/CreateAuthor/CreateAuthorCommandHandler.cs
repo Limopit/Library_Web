@@ -15,6 +15,7 @@ public class CreateAuthorCommandHandler: IRequestHandler<CreateAuthorCommand, Gu
     {
         var author = new Author()
         {
+            author_id = Guid.NewGuid(),
             author_firstname = request.author_firstname,
             author_lastname = request.author_lastname,
             author_birthday = request.author_birthday,

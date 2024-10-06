@@ -2,5 +2,5 @@
 
 public class AuthorListVm
 {
-    public IList<AuthorListInfo> authors { get; set; }
+    public IList<AuthorListDto> Authors { get; set; }
 }
