@@ -3,6 +3,7 @@ using Library.Application;
 using Library.Application.Common.Mappings;
 using Library.Application.Interfaces;
 using Library.Persistance;
+using Library.WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +58,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCustomExceptionHandler();
 
 app.UseHttpsRedirection();
 
