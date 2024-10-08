@@ -2,7 +2,7 @@
 
 namespace Library.Application.Authors.Queries.GetAuthorDetails;
 
-public class GetAuthorDetailsQueryValidator: AbstractValidator<GetAuthorDetailsQuery>
+public class GetAuthorByIdQueryValidator: AbstractValidator<GetAuthorByIdQuery>
 {
     
 }

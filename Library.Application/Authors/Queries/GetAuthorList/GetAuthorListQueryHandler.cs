@@ -17,7 +17,7 @@ public class GetAuthorListQueryHandler: IRequestHandler<GetAuthorListQuery, Auth
     public async Task<AuthorListVm> Handle(GetAuthorListQuery request, CancellationToken cancellationToken)
     {
         var authorList = await _libraryDbContext.authors
-            .ProjectTo<AuthorListDto>(_mapper.ConfigurationProvider)  // Маппинг с помощью AutoMapper
+            .ProjectTo<AuthorListDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 
         return new AuthorListVm{Authors = authorList};

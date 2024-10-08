@@ -34,13 +34,11 @@ public class BookConfiguration: IEntityTypeConfiguration<Book>
 
         builder.Property(book => book.book_issue_date)
             .HasColumnName("book_issue_date")
-            .HasColumnType("TEXT")
-            .IsRequired();
+            .HasColumnType("TEXT");
 
         builder.Property(book => book.book_issue_expiration_date)
             .HasColumnName("book_issue_expiration_date")
-            .HasColumnType("TEXT")
-            .IsRequired();
+            .HasColumnType("TEXT");
 
         builder.HasOne(book => book.author)
             .WithMany(author => author.books)

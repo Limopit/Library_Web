@@ -8,9 +8,9 @@ public class AuthorDetailsVm: IMapWith<Author>
 {
     public string author_firstname { get; set; }
     public string author_lastname { get; set; }
-    public DateOnly? author_birthday { get; set; }
+    public DateTime? author_birthday { get; set; }
     public string? author_country { get; set; }
-    public ICollection<Book> books { get; set; }
+    public ICollection<BookListDto> books { get; set; } = new List<BookListDto>();
 
     public void Mapping(Profile profile)
     {
