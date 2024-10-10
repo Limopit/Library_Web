@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using FluentValidation;
+using Library.Application.Authors.Commands.CreateAuthor;
 using Library.Application.Common.Behavior;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,7 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg
             =>cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
-        services.AddValidatorsFromAssemblies(new[] { Assembly.GetExecutingAssembly() });
+        services.AddValidatorsFromAssemblyContaining<CreateAuthorCommand>();
         services.AddTransient(typeof(IPipelineBehavior<,>),
             typeof(ValidationBehavior<,>));
         return services;

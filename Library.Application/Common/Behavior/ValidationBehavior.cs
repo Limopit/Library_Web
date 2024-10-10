@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
+using Library.Application.Common.Exceptions;
 using MediatR;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace Library.Application.Common.Behavior;
 
 public class ValidationBehavior<TRequest, TResponse>
-    : IPipelineBehavior<TRequest,TResponse> where TRequest : IRequest<TResponse>
+    : IPipelineBehavior<TRequest,TResponse> where TRequest : notnull
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -23,7 +24,7 @@ public class ValidationBehavior<TRequest, TResponse>
             .ToList();
         if (failures.Count != 0)
         {
-            throw new ValidationException();
+            throw new CustomValidationException(failures);
         }
 
         return next();

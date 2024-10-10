@@ -29,9 +29,12 @@ public class CustomExceptionHandler
         var result = string.Empty;
         switch (e)
         {
-            case ValidationException ve:
+            case CustomValidationException сve:
                 code = HttpStatusCode.BadRequest;
-                result = JsonSerializer.Serialize(ve.ValidationResult);
+                result = JsonSerializer.Serialize(new
+                {
+                    Errors = сve.errors
+                });
                 break;
             case NotFoundException nfe:
                 code = HttpStatusCode.NotFound;
