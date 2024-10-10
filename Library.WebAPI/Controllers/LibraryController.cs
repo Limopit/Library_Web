@@ -44,11 +44,6 @@ public class LibraryController : BaseController
     [HttpPost("author/")]
     public async Task<ActionResult<Guid>> CreateNewAuthor([FromBody] CreateAuthorCommand command)
     {
-        if (string.IsNullOrWhiteSpace(command.author_firstname) || string.IsNullOrWhiteSpace(command.author_lastname))
-        {
-            return BadRequest("Wrong author name");
-        }
-
         var author_id = await _mediator.Send(command);
         return Ok(author_id);
     }
@@ -56,11 +51,6 @@ public class LibraryController : BaseController
     [HttpPut("author/")]
     public async Task<IActionResult> UpdateAuthor([FromBody] UpdateAuthorCommand command)
     {
-        if (string.IsNullOrWhiteSpace(command.author_firstname) || string.IsNullOrWhiteSpace(command.author_lastname))
-        {
-            return BadRequest("Wrong author name");
-        }
-
         await _mediator.Send(command);
         return NoContent();
     }
@@ -79,11 +69,6 @@ public class LibraryController : BaseController
     [HttpPost("books/")]
     public async Task<ActionResult<Guid>> AddBook([FromBody] CreateBookCommand command)
     {
-        if (string.IsNullOrWhiteSpace(command.book_name) || string.IsNullOrWhiteSpace(command.ISBN))
-        {
-            return BadRequest("Wrong book params");
-        }
-
         var book_id = await _mediator.Send(command);
         return Ok(book_id);
     }
@@ -102,11 +87,6 @@ public class LibraryController : BaseController
     [HttpPut("books/")]
     public async Task<ActionResult> UpdateBook([FromBody] UpdateBookCommand command)
     {
-        if (string.IsNullOrWhiteSpace(command.book_name) || string.IsNullOrWhiteSpace(command.ISBN))
-        {
-            return BadRequest("Wrong book params");
-        }
-
         await _mediator.Send(command);
         return NoContent();
     }

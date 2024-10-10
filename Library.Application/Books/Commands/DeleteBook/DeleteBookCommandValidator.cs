@@ -1,6 +1,11 @@
-﻿namespace Library.Application.Books.Commands.DeleteBook;
+﻿using FluentValidation;
 
-public class DeleteBookCommandValidator
+namespace Library.Application.Books.Commands.DeleteBook;
+
+public class DeleteBookCommandValidator: AbstractValidator<DeleteBookCommand>
 {
-    
+    public DeleteBookCommandValidator()
+    {
+        RuleFor(command => command.book_id).NotEmpty().WithMessage("Id is required");
+    }
 }
