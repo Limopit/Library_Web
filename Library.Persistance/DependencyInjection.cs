@@ -1,4 +1,6 @@
 ﻿using Library.Application.Interfaces;
+using Library.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +16,20 @@ public static class DependencyInjection
         {
             options.UseSqlite(connectionString);
         });
+        
         services.AddScoped<ILibraryDBContext>(provider => provider.GetService<LibraryDBContext>());
+        
+        services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequiredLength = 6;
+
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<LibraryDBContext>()
+            .AddDefaultTokenProviders();
         return services;
     }
 }

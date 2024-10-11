@@ -7,5 +7,6 @@ public interface ILibraryDBContext
 {
     DbSet<Book> books { get; set; }
     DbSet<Author> authors { get; set; }
+    DbSet<User> Users { get; set; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
