@@ -2,8 +2,10 @@ using System.Reflection;
 using Library.Application;
 using Library.Application.Common.Mappings;
 using Library.Application.Interfaces;
+using Library.Identity;
 using Library.Persistance;
 using Library.WebAPI.Middleware;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,8 @@ builder.Services.AddAutoMapper(config =>
 builder.Services.AddPersistance(builder.Configuration);
 
 builder.Services.AddDbContext<LibraryDBContext>();
+
+builder.Services.AddAuthenticationAndAuthorization(builder.Configuration);
     
 builder.Services.AddCors(options =>
 {
@@ -32,7 +36,31 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Введите токен в формате **Bearer {ваш_токен}**",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+    
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 var app = builder.Build();
 
@@ -66,7 +94,14 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await RoleInitializer.SeedRolesAsync(services);
+}
 
 app.Run();

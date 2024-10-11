@@ -11,6 +11,7 @@ using Library.Application.Books.Queries;
 using Library.Application.Books.Queries.GetBookById;
 using Library.Application.Books.Queries.GetBookByISBN;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers;
@@ -41,6 +42,7 @@ public class LibraryController : BaseController
         return Ok(author);
     }
 
+    [Authorize]
     [HttpPost("author/")]
     public async Task<ActionResult<Guid>> CreateNewAuthor([FromBody] CreateAuthorCommand command)
     {

@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Library.Application\Library.Application.csproj" />
+      <ProjectReference Include="..\Library.Identity\Library.Identity.csproj" />
       <ProjectReference Include="..\Library.Persistance\Library.Persistance.csproj" />
     </ItemGroup>
 
