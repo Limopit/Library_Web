@@ -13,8 +13,4 @@ public abstract class BaseController : ControllerBase
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
-
-    internal Guid UserId => !User.Identity.IsAuthenticated
-        ? Guid.Empty
-        : Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 }

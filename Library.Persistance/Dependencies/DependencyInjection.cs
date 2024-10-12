@@ -1,9 +1,11 @@
 ﻿using Library.Application.Interfaces;
 using Library.Domain;
+using Library.Persistance.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Library.Persistance;
 
@@ -30,6 +32,9 @@ public static class DependencyInjection
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<LibraryDBContext>()
             .AddDefaultTokenProviders();
+        
+        services.AddScoped<ITokenService, TokenService>();
+        
         return services;
     }
 }

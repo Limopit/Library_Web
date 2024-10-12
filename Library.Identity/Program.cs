@@ -1,22 +1,29 @@
+using Library.Application.Interfaces;
+using Library.Application.Users.Commands.LoginUser;
 using Library.Identity;
+using Library.Identity.Configuration;
+using Library.Persistance.Services;
+using MediatR;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddIdentityServer(options =>
     {
-        options.EmitStaticAudienceClaim = true; // Опция для добавления статического audience claim
+        options.EmitStaticAudienceClaim = true;
     })
-    .AddInMemoryClients(IdentityServerConfig.GetClients())           // Конфигурация клиентов
-    .AddInMemoryApiScopes(IdentityServerConfig.GetApiScopes())       // Конфигурация API Scopes
+    .AddInMemoryClients(IdentityServerConfig.GetClients())
+    .AddInMemoryApiScopes(IdentityServerConfig.GetApiScopes())
     .AddDeveloperSigningCredential();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

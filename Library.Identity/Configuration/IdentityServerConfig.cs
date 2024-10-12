@@ -1,6 +1,6 @@
 ﻿using IdentityServer4.Models;
 
-namespace Library.Identity;
+namespace Library.Identity.Configuration;
 
 public class IdentityServerConfig
 {
@@ -17,11 +17,11 @@ public class IdentityServerConfig
                     new Secret("client_secret".Sha256())
                 },
                 AllowedScopes = { "api_scope" },
-                AllowOfflineAccess = true, // Позволяет использовать Refresh токены
+                AllowOfflineAccess = true,
                 RequireConsent = false,
-                AccessTokenLifetime = 3600, // Время жизни Access токена в секундах
-                AbsoluteRefreshTokenLifetime = 2592000, // Время жизни Refresh токена в секундах
-                RefreshTokenUsage = TokenUsage.ReUse // Один Refresh токен на grant
+                AccessTokenLifetime = 3600,
+                AbsoluteRefreshTokenLifetime = 2592000,
+                RefreshTokenUsage = TokenUsage.ReUse
             }
         };
     }
@@ -33,4 +33,5 @@ public class IdentityServerConfig
             new ApiScope("api_scope", "My API")
         };
     }
+    
 }
