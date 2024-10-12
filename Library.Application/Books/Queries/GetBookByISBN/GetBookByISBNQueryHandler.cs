@@ -19,7 +19,7 @@ public class GetBookByISBNQueryHandler: IRequestHandler<GetBookByISBNQuery, Book
     public async Task<BookByISBNDto> Handle(GetBookByISBNQuery request, CancellationToken cancellationToken)
     {
         var book = await _libraryDbContext.books
-            .Include(b => b.author) // Загрузка связанного автора
+            .Include(b => b.author)
             .FirstOrDefaultAsync(b => b.ISBN == request.ISBN, cancellationToken);
         
         if (book == null || book.ISBN != request.ISBN)

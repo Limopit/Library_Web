@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using System.Text;
+using Library.Persistance.Services;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Library.Identity;
 
@@ -15,9 +17,21 @@ public static class ServerSetup
             .AddJwtBearer("Bearer", options =>
             {
                 options.Authority = configuration["IdentityServer:Authority"];
+                
+                options.BackchannelHttpHandler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+                };
+                
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateAudience = false
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
                 };
             });
 
@@ -31,7 +45,7 @@ public static class ServerSetup
             options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Admin"));
             options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
         });
-
+        
         return services;
     }
 }

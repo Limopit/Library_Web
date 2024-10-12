@@ -21,6 +21,7 @@ public class LibraryController : BaseController
 {
     public LibraryController(IMediator mediator) : base(mediator){}
     
+    [Authorize]
     [HttpGet("author/")]
     public async Task<ActionResult<AuthorListVm>> GetAllAuthors()
     {
