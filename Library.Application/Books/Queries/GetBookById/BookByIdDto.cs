@@ -11,9 +11,8 @@ public class BookByIdDto: IMapWith<Book>
     public string book_name { get; set; }
     public string book_genre { get; set; }
     public string? book_description { get; set; }
+    public IList<string> image_urls { get; set; }
     public AuthorInfoDto author { get; set; }
-    public DateTime? book_issue_date { get; set; }
-    public DateTime? book_issue_expiration_date { get; set; }
     
     public void Mapping(Profile profile)
     {
@@ -32,6 +31,10 @@ public class BookByIdDto: IMapWith<Book>
                 => opt.MapFrom(book => book.book_description))
             .ForMember(dto
                 => dto.author, opt
-                => opt.MapFrom(book => book.author));
+                => opt.MapFrom(book => book.author))
+            .ForMember(dto
+                => dto.image_urls, opt
+                => opt.MapFrom(book 
+                    => book.imageUrls.Split(' ', StringSplitOptions.RemoveEmptyEntries)));
     }
 }

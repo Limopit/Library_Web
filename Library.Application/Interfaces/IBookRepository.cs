@@ -12,4 +12,5 @@ public interface IBookRepository
     Task<BookByIdDto> GetBookInfoByIdAsync(Guid id, CancellationToken token);
     Task<Book?> GetBookByIdAsync(Guid id, CancellationToken token);
     Task<BookByISBNDto> GetBookByISBNAsync(String ISBN, CancellationToken token);
+
 }

@@ -3,6 +3,7 @@ using System;
 using Library.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Persistance.Migrations
 {
     [DbContext(typeof(LibraryDBContext))]
-    partial class LibraryDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241013204232_InitialUpdateImages")]
+    partial class InitialUpdateImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.20");
@@ -85,6 +88,7 @@ namespace Library.Persistance.Migrations
                         .HasColumnName("book_name");
 
                     b.Property<string>("imageUrls")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("book_id");

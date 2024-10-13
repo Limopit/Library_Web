@@ -15,10 +15,5 @@ public class UpdateBookCommandValidator: AbstractValidator<UpdateBookCommand>
         RuleFor(command => command.book_genre).MaximumLength(32);
         RuleFor(command => command.book_description).MaximumLength(256);
         RuleFor(command => command.author_id).NotEmpty().WithMessage("Author is required");
-        RuleFor(command => command.book_issue_date)
-            .LessThanOrEqualTo(DateTime.Now).WithMessage("Book must not be issued in future");
-        RuleFor(command => command.book_issue_expiration_date)
-            .GreaterThanOrEqualTo(command => command.book_issue_date)
-            .WithMessage("Issue expiration must be after the issue itself");
     }
 }
