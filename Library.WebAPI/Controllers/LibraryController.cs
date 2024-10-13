@@ -21,7 +21,7 @@ public class LibraryController : BaseController
 {
     public LibraryController(IMediator mediator) : base(mediator){}
     
-    [Authorize]
+    //[Authorize]
     [HttpGet("author/")]
     public async Task<ActionResult<AuthorListVm>> GetAllAuthors()
     {
@@ -43,7 +43,7 @@ public class LibraryController : BaseController
         return Ok(author);
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpPost("author/")]
     public async Task<ActionResult<Guid>> CreateNewAuthor([FromBody] CreateAuthorCommand command)
     {

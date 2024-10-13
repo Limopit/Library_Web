@@ -8,29 +8,26 @@ namespace Library.Application.Authors.Commands.UpdateAuthor;
 
 public class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand>
 {
-    private readonly ILibraryDBContext _libraryDbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateAuthorCommandHandler(ILibraryDBContext libraryDbContext)
-        => _libraryDbContext = libraryDbContext;
+    public UpdateAuthorCommandHandler(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
     
     public async Task Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
     {
-        var entity =
-            await _libraryDbContext.authors.FirstOrDefaultAsync(author => author.author_id == request.author_id,
-                cancellationToken);
+        var author = await _unitOfWork.Authors.GetAuthorByIdAsync(request.author_id, cancellationToken);
 
-        if (entity == null || entity.author_id != request.author_id)
+        if (author == null || author.author_id != request.author_id)
         {
             throw new NotFoundException(nameof(Author), request.author_id);
         }
 
-        entity.author_firstname = request.author_firstname;
-        entity.author_lastname = request.author_lastname;
-        entity.author_birthday = request.author_birthday;
-        entity.author_country = request.author_country;
-        entity.books = request.books;
-        
-        await _libraryDbContext.SaveChangesAsync(cancellationToken);
-        
+        author.author_firstname = request.author_firstname;
+        author.author_lastname = request.author_lastname;
+        author.author_birthday = request.author_birthday;
+        author.author_country = request.author_country;
+        author.books = request.books;
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

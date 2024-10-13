@@ -1,5 +1,7 @@
 ﻿using Library.Application.Interfaces;
 using Library.Domain;
+using Library.Persistance.DbPatterns;
+using Library.Persistance.DbPatterns.Repositories;
 using Library.Persistance.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +36,10 @@ public static class DependencyInjection
             .AddDefaultTokenProviders();
         
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IAuthorRepository, AuthorRepository>();
+        services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         
         return services;
     }

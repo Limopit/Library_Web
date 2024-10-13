@@ -8,18 +8,13 @@ namespace Library.Application.Authors.Queries.GetAuhtorList;
 
 public class GetAuthorListQueryHandler: IRequestHandler<GetAuthorListQuery, AuthorListVm>
 {
-    private readonly ILibraryDBContext _libraryDbContext;
-    private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetAuthorListQueryHandler(ILibraryDBContext libraryDbContext, IMapper mapper)
-        => (_libraryDbContext, _mapper) = (libraryDbContext, mapper);
+    public GetAuthorListQueryHandler(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
     
     public async Task<AuthorListVm> Handle(GetAuthorListQuery request, CancellationToken cancellationToken)
     {
-        var authorList = await _libraryDbContext.authors
-            .ProjectTo<AuthorListDto>(_mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
-
-        return new AuthorListVm{Authors = authorList};
+        return await _unitOfWork.Authors.GetAuthorListAsync(cancellationToken);
     }
 }

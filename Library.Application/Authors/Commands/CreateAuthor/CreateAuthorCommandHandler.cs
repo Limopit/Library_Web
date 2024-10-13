@@ -6,10 +6,10 @@ namespace Library.Application.Authors.Commands.CreateAuthor;
 
 public class CreateAuthorCommandHandler: IRequestHandler<CreateAuthorCommand, Guid>
 {
-    private readonly ILibraryDBContext _libraryDbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateAuthorCommandHandler(ILibraryDBContext libraryDbContext)
-        => _libraryDbContext = libraryDbContext;
+    public CreateAuthorCommandHandler(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
     
     public async Task<Guid> Handle(CreateAuthorCommand request, CancellationToken cancellationToken)
     {
@@ -23,9 +23,8 @@ public class CreateAuthorCommandHandler: IRequestHandler<CreateAuthorCommand, Gu
             books = request.books
         };
 
-        await _libraryDbContext.authors.AddAsync(author, cancellationToken);
-        await _libraryDbContext.SaveChangesAsync(cancellationToken);
-        
+        await _unitOfWork.Authors.AddAuthorAsync(author, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return author.author_id;
     }
 }

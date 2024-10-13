@@ -10,23 +10,13 @@ namespace Library.Application.Books.Queries.GetBookByISBN;
 
 public class GetBookByISBNQueryHandler: IRequestHandler<GetBookByISBNQuery, BookByISBNDto>
 {
-    private readonly ILibraryDBContext _libraryDbContext;
-    private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetBookByISBNQueryHandler(ILibraryDBContext libraryDbContext, IMapper mapper)
-        => (_libraryDbContext, _mapper) = (libraryDbContext, mapper);
+    public GetBookByISBNQueryHandler(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
     
     public async Task<BookByISBNDto> Handle(GetBookByISBNQuery request, CancellationToken cancellationToken)
     {
-        var book = await _libraryDbContext.books
-            .Include(b => b.author)
-            .FirstOrDefaultAsync(b => b.ISBN == request.ISBN, cancellationToken);
-        
-        if (book == null || book.ISBN != request.ISBN)
-        {
-            throw new NotFoundException(nameof(Book), request.ISBN);
-        }
-
-        return _mapper.Map<BookByISBNDto>(book);
+        return await _unitOfWork.Books.GetBookByISBNAsync(request.ISBN, cancellationToken);
     }
 }

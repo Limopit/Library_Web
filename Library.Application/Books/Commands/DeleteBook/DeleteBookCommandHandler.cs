@@ -8,22 +8,22 @@ namespace Library.Application.Books.Commands.DeleteBook;
 
 public class DeleteBookCommandHandler: IRequestHandler<DeleteBookCommand>
 {
-    private readonly ILibraryDBContext _libraryDbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteBookCommandHandler(ILibraryDBContext libraryDbContext)
-        => _libraryDbContext = libraryDbContext;
+    public DeleteBookCommandHandler(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
 
     public async Task Handle(DeleteBookCommand request, CancellationToken cancellationToken)
     {
-        var book = await
-            _libraryDbContext.books.FindAsync(new object?[] { request.book_id }, cancellationToken);
+        var book = await _unitOfWork.Books.GetBookByIdAsync(request.book_id, cancellationToken);
         
         if (book == null || book.book_id != request.book_id)
         {
             throw new NotFoundException(nameof(Book), request.book_id);
         }
+
+        await _unitOfWork.Books.DeleteBookAsync(book);
         
-        _libraryDbContext.books.Remove(book);
-        await _libraryDbContext.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

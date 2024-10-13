@@ -8,24 +8,22 @@ namespace Library.Application.Authors.Commands.DeleteAuthor;
 
 public class DeleteAuthorCommandHandler: IRequestHandler<DeleteAuthorCommand>
 {
-    private readonly ILibraryDBContext _libraryDbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteAuthorCommandHandler(ILibraryDBContext libraryDbContext)
-        => _libraryDbContext = libraryDbContext;
+    public DeleteAuthorCommandHandler(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
     
     public async Task Handle(DeleteAuthorCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _libraryDbContext.authors
-            .FindAsync(new object?[] { request.author_id }, cancellationToken);
+        var author = await _unitOfWork.Authors.GetAuthorByIdAsync(request.author_id, cancellationToken);
 
-        if (entity == null || entity.author_id != request.author_id)
+        if (author == null || author.author_id != request.author_id)
         {
             throw new NotFoundException(nameof(Author), request.author_id);
         }
 
-        _libraryDbContext.authors.Remove(entity);
-        
-        await _libraryDbContext.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.Authors.DeleteAuthorAsync(author);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
     
     
