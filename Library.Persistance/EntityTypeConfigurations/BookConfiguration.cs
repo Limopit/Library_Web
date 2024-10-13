@@ -32,18 +32,14 @@ public class BookConfiguration: IEntityTypeConfiguration<Book>
             .HasColumnName("book_descr")
             .HasMaxLength(128);
 
-        builder.Property(book => book.book_issue_date)
-            .HasColumnName("book_issue_date")
-            .HasColumnType("TEXT");
-
-        builder.Property(book => book.book_issue_expiration_date)
-            .HasColumnName("book_issue_expiration_date")
-            .HasColumnType("TEXT");
-
         builder.HasOne(book => book.author)
             .WithMany(author => author.books)
             .HasForeignKey(book => book.author_id)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
+        builder.HasMany(book => book.borrowRecords)
+            .WithOne(record => record.book)
+            .HasForeignKey(record => record.bookId);
+
     }
 }

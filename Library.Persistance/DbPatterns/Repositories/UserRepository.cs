@@ -1,40 +1,61 @@
 ﻿using Library.Application.Interfaces;
 using Library.Domain;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Library.Persistance.DbPatterns.Repositories;
 
 public class UserRepository: IUserRepository
 {
     private readonly LibraryDBContext _libraryDbContext;
+    private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
+    private readonly ITokenService _tokenService;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public UserRepository(LibraryDBContext libraryDbContext)
+    public UserRepository(LibraryDBContext libraryDbContext, SignInManager<User> signInManager,
+        ITokenService tokenService, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
     {
         _libraryDbContext = libraryDbContext;
+        _signInManager = signInManager;
+        _tokenService = tokenService;
+        _userManager = userManager;
+        _roleManager = roleManager;
     }
     
-    public Task RegisterUser(User user)
+    public async Task<IdentityResult?> AddUserAsync(User user, string password)
     {
-        throw new NotImplementedException();
+        return await _userManager.CreateAsync(user, password);
     }
 
-    public Task<SignInResult?> SignIn(string email, string password)
+    public async Task<SignInResult?> SignInAsync(string email, string password, bool isPersistent, bool lockoutOnFailure)
     {
-        throw new NotImplementedException();
+        return await _signInManager.PasswordSignInAsync(email, password, isPersistent, lockoutOnFailure);
     }
 
-    public Task<User?> FindUserByEmail(string email)
+    public async Task<User?> FindUserByEmail(string email)
     {
-        throw new NotImplementedException();
+       return await _signInManager.UserManager.FindByEmailAsync(email);
     }
 
-    public Task<string> GenerateTokenForUser(User user)
+    public async Task<string> GenerateTokenForUser(User user)
     {
-        throw new NotImplementedException();
+        return await _tokenService.GenerateToken(user, _userManager);
     }
 
-    public Task<bool> UserRoleExists(string role)
+    public async Task<bool> UserRoleExistsAsync(string role)
     {
-        throw new NotImplementedException();
+        return await _roleManager.RoleExistsAsync(role);
+    }
+
+    public async Task<IdentityResult?> GiveRoleAsync(User user, string role)
+    {
+        return await _userManager.AddToRoleAsync(user, role);
+    }
+
+    public async Task<IdentityResult?> ClearUserRolesAsync(User user)
+    {
+        var roles = await _userManager.GetRolesAsync(user);
+        return await _userManager.RemoveFromRolesAsync(user, roles);
     }
 }

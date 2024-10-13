@@ -17,5 +17,9 @@ public class UserConfiguration: IEntityTypeConfiguration<User>
         builder.Property(prop => prop.Birthday)
             .HasColumnType("TEXT")
             .IsRequired();
+        
+        builder.HasMany(user => user.borrowRecords)
+            .WithOne(record => record.user)
+            .HasForeignKey(record => record.userId);
     }
 }

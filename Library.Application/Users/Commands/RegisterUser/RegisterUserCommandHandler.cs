@@ -1,4 +1,5 @@
-﻿using Library.Domain;
+﻿using Library.Application.Interfaces;
+using Library.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -6,13 +7,11 @@ namespace Library.Application.Users.Commands.RegisterUser;
 
 public class RegisterUserCommandHandler: IRequestHandler<RegisterUserCommand, string>
 {
-    private readonly UserManager<User> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public RegisterUserCommandHandler(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+    public RegisterUserCommandHandler(IUnitOfWork unitOfWork)
     {
-        _userManager = userManager;
-        _roleManager = roleManager;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -20,19 +19,19 @@ public class RegisterUserCommandHandler: IRequestHandler<RegisterUserCommand, st
         var user = new User { UserName = request.Email, Email = request.Email,
             FirstName = request.FirstName, LastName = request.LastName};
         
-        if (!await _roleManager.RoleExistsAsync(request.Role))
+        if (!await _unitOfWork.Users.UserRoleExistsAsync(request.Role))
         {
             throw new Exception("Role doesn`t exist");
         }
         
-        var result = await _userManager.CreateAsync(user, request.Password);
+        var result = await _unitOfWork.Users.AddUserAsync(user, request.Password);
         
         if (!result.Succeeded)
         {
             throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
         }
         
-        await _userManager.AddToRoleAsync(user, request.Role);
+        await _unitOfWork.Users.GiveRoleAsync(user, request.Role);
 
         return user.Id;
     }
