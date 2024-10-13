@@ -53,6 +53,8 @@ public class BookRepository: IBookRepository
             throw new NotFoundException(nameof(Book), id);
         }
         
+        
+        
         return _mapper.Map<BookByIdDto>(book);
     }
 

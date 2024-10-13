@@ -94,6 +94,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        var headers = ctx.Context.Response.Headers;
+        headers["Cache-Control"] = "public,max-age=360"; 
+        headers["Expires"] = DateTime.UtcNow.AddHours(1).ToString("R");
+    }
+});
+
 app.UseCustomExceptionHandler();
 
 app.UseHttpsRedirection();

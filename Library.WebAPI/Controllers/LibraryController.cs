@@ -6,6 +6,7 @@ using Library.Application.Authors.Commands.UpdateAuthor;
 using Library.Application.Authors.Queries.GetAuhtorList;
 using Library.Application.Authors.Queries.GetAuthorBooksList;
 using Library.Application.Authors.Queries.GetAuthorDetails;
+using Library.Application.Books.Commands.AddImage;
 using Library.Application.Books.Commands.CreateBook;
 using Library.Application.Books.Commands.DeleteBook;
 using Library.Application.Books.Commands.UpdateBook;
@@ -127,5 +128,14 @@ public class LibraryController : BaseController
         var result = await _mediator.Send(command);
         
         return Ok(result);
+    }
+    
+    [HttpPost("books/{bookId}/add-image")]
+    public async Task<IActionResult> AddImageToBook([FromBody]AddImageCommand command)
+    {
+        var path = Path.Combine("wwwroot", "images/books", command.ImagePath);
+        await _mediator.Send(command);
+    
+        return NoContent();
     }
 }

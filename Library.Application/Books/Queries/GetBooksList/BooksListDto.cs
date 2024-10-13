@@ -11,6 +11,7 @@ public class BooksListDto: IMapWith<Book>
     public string book_name { get; set; }
     public string book_genre { get; set; }
     public string? book_description { get; set; }
+    public IList<string> image_urls { get; set; }
     
     public void Mapping(Profile profile)
     {
@@ -26,6 +27,10 @@ public class BooksListDto: IMapWith<Book>
                     => opt.MapFrom(book => book.book_genre))
             .ForMember(bookVm => bookVm.book_description,
                 opt
-                    => opt.MapFrom(book => book.book_description));
+                    => opt.MapFrom(book => book.book_description))
+            .ForMember(dto
+                => dto.image_urls, opt
+                => opt.MapFrom(book 
+                    => book.imageUrls.Split(' ', StringSplitOptions.RemoveEmptyEntries)));
     }
 }
