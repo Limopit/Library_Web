@@ -5,9 +5,11 @@ namespace Library.Application.Interfaces;
 
 public interface IUserRepository
 {
-    Task RegisterUser(User user);
-    Task<SignInResult?> SignIn(string email, string password);
+    Task<IdentityResult?> AddUserAsync(User user, string password);
+    Task<SignInResult?> SignInAsync(string email, string password, bool isPersistent, bool lockoutOnFailure);
     Task<User?> FindUserByEmail(string email);
     Task<string> GenerateTokenForUser(User user);
-    Task<bool> UserRoleExists(string role);
+    Task<bool> UserRoleExistsAsync(string role);
+    Task<IdentityResult?> GiveRoleAsync(User user, string role);
+    Task<IdentityResult?> ClearUserRolesAsync(User user);
 }

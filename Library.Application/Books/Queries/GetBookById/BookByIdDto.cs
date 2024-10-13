@@ -18,26 +18,20 @@ public class BookByIdDto: IMapWith<Book>
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Book, BookByIdDto>()
-            .ForMember(dto 
-                => dto.ISBN, opt 
+            .ForMember(dto
+                => dto.ISBN, opt
                 => opt.MapFrom(book => book.ISBN))
-            .ForMember(dto 
-                => dto.book_name, opt 
+            .ForMember(dto
+                => dto.book_name, opt
                 => opt.MapFrom(book => book.book_name))
-            .ForMember(dto 
-                => dto.book_genre, opt 
+            .ForMember(dto
+                => dto.book_genre, opt
                 => opt.MapFrom(book => book.book_genre))
-            .ForMember(dto 
-                => dto.book_description, opt 
+            .ForMember(dto
+                => dto.book_description, opt
                 => opt.MapFrom(book => book.book_description))
-            .ForMember(dto 
-                => dto.author, opt 
-                => opt.MapFrom(book => book.author))
-            .ForMember(dto 
-                => dto.book_issue_date, opt 
-                => opt.MapFrom(book => book.book_issue_date))
-            .ForMember(dto 
-                => dto.book_issue_expiration_date, opt 
-                => opt.MapFrom(book => book.book_issue_expiration_date));
+            .ForMember(dto
+                => dto.author, opt
+                => opt.MapFrom(book => book.author));
     }
 }

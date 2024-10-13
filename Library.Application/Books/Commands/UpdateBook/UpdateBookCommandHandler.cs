@@ -27,8 +27,6 @@ public class UpdateBookCommandHandler: IRequestHandler<UpdateBookCommand>
         book.book_description = request.book_description;
         book.book_genre = request.book_genre;
         book.author_id = request.author_id;
-        book.book_issue_date = request.book_issue_date;
-        book.book_issue_expiration_date = request.book_issue_expiration_date;
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }

@@ -22,8 +22,6 @@ public class CreateBookCommandHandler: IRequestHandler<CreateBookCommand, Guid>
             book_name = request.book_name,
             book_genre = request.book_genre,
             book_description = request.book_description,
-            book_issue_date = request.book_issue_date,
-            book_issue_expiration_date = request.book_issue_expiration_date,
             author_id = request.author_id
         };
 

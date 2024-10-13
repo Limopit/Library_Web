@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Library.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,4 +14,5 @@ public abstract class BaseController : ControllerBase
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
+    
 }

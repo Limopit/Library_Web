@@ -1,4 +1,6 @@
-﻿using Library.Domain;
+﻿using Library.Application.Common.Exceptions;
+using Library.Application.Interfaces;
+using Library.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -6,29 +8,28 @@ namespace Library.Application.Users.Commands.AssignRole;
 
 public class AssignRoleCommandHandler: IRequestHandler<AssignRoleCommand, bool>
 {
-    private readonly UserManager<User> _userManager;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public AssignRoleCommandHandler(UserManager<User> userManager)
+    public AssignRoleCommandHandler(IUnitOfWork unitOfWork)
     {
-        _userManager = userManager;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<bool> Handle(AssignRoleCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email);
+        var user = await _unitOfWork.Users.FindUserByEmail(request.Email);
         if (user == null)
         {
-            throw new Exception("User not found.");
+            throw new NotFoundException(nameof(User), request.Email);
         }
-
-        var currentRoles = await _userManager.GetRolesAsync(user);
-        var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+        
+        var removeResult = await _unitOfWork.Users.ClearUserRolesAsync(user);
         if (!removeResult.Succeeded)
         {
             throw new Exception("Failed to remove user roles");
         }
         
-        var addResult = await _userManager.AddToRoleAsync(user, request.Role);
+        var addResult = await _unitOfWork.Users.GiveRoleAsync(user, request.Role);
         return addResult.Succeeded;
     }
 }
