@@ -10,19 +10,13 @@ namespace Library.Application.Books.Queries;
 
 public class GetBooksListQueryHandler: IRequestHandler<GetBooksListQuery, BooksListVm>
 {
-    
-    private readonly ILibraryDBContext _libraryDbContext;
-    private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetBooksListQueryHandler(ILibraryDBContext libraryDbContext, IMapper mapper)
-        => (_libraryDbContext, _mapper) = (libraryDbContext, mapper);
+    public GetBooksListQueryHandler(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
     
     public async Task<BooksListVm> Handle(GetBooksListQuery request, CancellationToken cancellationToken)
     {
-        var bookList = await _libraryDbContext.books
-            .ProjectTo<BookListDto>(_mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
-
-        return new BooksListVm{Books = bookList};
+        return await _unitOfWork.Books.GetBookListAsync(cancellationToken);
     }
 }

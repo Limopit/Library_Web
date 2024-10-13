@@ -8,15 +8,14 @@ namespace Library.Application.Books.Commands.UpdateBook;
 
 public class UpdateBookCommandHandler: IRequestHandler<UpdateBookCommand>
 {
-    private readonly ILibraryDBContext _libraryDbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateBookCommandHandler(ILibraryDBContext libraryDbContext)
-        => _libraryDbContext = libraryDbContext;
+    public UpdateBookCommandHandler(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
     
     public async Task Handle(UpdateBookCommand request, CancellationToken cancellationToken)
     {
-        var book = await _libraryDbContext.books
-            .FirstOrDefaultAsync(b => b.book_id == request.book_id, cancellationToken);
+        var book = await _unitOfWork.Books.GetBookByIdAsync(request.book_id, cancellationToken);
         
         if (book == null || book.book_id != request.book_id)
         {
@@ -31,6 +30,6 @@ public class UpdateBookCommandHandler: IRequestHandler<UpdateBookCommand>
         book.book_issue_date = request.book_issue_date;
         book.book_issue_expiration_date = request.book_issue_expiration_date;
 
-        await _libraryDbContext.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

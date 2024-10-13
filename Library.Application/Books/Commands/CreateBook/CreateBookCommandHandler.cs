@@ -8,10 +8,10 @@ namespace Library.Application.Books.Commands.CreateBook;
 
 public class CreateBookCommandHandler: IRequestHandler<CreateBookCommand, Guid>
 {
-    private readonly ILibraryDBContext _libraryDbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateBookCommandHandler(ILibraryDBContext libraryDbContext)
-        => _libraryDbContext = libraryDbContext;
+    public CreateBookCommandHandler(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
 
     public async Task<Guid> Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
@@ -27,20 +27,16 @@ public class CreateBookCommandHandler: IRequestHandler<CreateBookCommand, Guid>
             author_id = request.author_id
         };
 
-        await _libraryDbContext.books.AddAsync(book, cancellationToken);
-
-        var author = await _libraryDbContext.authors
-            .Include(auth => auth.books)
-            .FirstOrDefaultAsync(auth => auth.author_id == request.author_id, cancellationToken);
-
+        var author = await _unitOfWork.Authors.GetAuthorByIdAsync(request.author_id, cancellationToken);
+        
         if (author == null || author.author_id != request.author_id)
         {
             throw new NotFoundException(nameof(Author), request.author_id);
         }
         
-        author.books.Add(book);
+        await _unitOfWork.Books.AddBookAsync(book, author, cancellationToken);
         
-        await _libraryDbContext.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return book.book_id;
     }
