@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Library.Application.Authors.Queries.GetAuthorDetails;
+namespace Library.Application.Authors.Queries.GetAuthorById;
 
 public class GetAuthorByIdQueryValidator: AbstractValidator<GetAuthorByIdQuery>
 {

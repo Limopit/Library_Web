@@ -2,7 +2,7 @@
 using Library.Application.Common.Mappings;
 using Library.Domain;
 
-namespace Library.Application.Books.Queries.GetBookById;
+namespace Library.Application.Books.Queries.GetBookByISBN;
 
 public class AuthorInfoISBNDto: IMapWith<Author>
 {

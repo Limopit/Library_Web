@@ -1,12 +1,7 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Library.Application.Common.Exceptions;
-using Library.Application.Interfaces;
-using Library.Domain;
+﻿using Library.Application.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
-namespace Library.Application.Authors.Queries.GetAuthorDetails;
+namespace Library.Application.Authors.Queries.GetAuthorById;
 
 public class AuthorByIdQueryHandler: IRequestHandler<GetAuthorByIdQuery, AuthorDetailsVm>
 {

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Library.Application.Common.Exceptions;
+﻿using Library.Application.Common.Exceptions;
 using Library.Application.Interfaces;
 using Library.Domain;
 using MediatR;

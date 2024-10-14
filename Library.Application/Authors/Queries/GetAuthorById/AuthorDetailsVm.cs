@@ -2,7 +2,7 @@
 using Library.Application.Common.Mappings;
 using Library.Domain;
 
-namespace Library.Application.Authors.Queries.GetAuthorDetails;
+namespace Library.Application.Authors.Queries.GetAuthorById;
 
 public class AuthorDetailsVm: IMapWith<Author>
 {

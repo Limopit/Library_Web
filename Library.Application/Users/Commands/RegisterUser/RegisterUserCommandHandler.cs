@@ -1,7 +1,6 @@
 ﻿using Library.Application.Interfaces;
 using Library.Domain;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace Library.Application.Users.Commands.RegisterUser;
 
@@ -28,7 +27,8 @@ public class RegisterUserCommandHandler: IRequestHandler<RegisterUserCommand, st
         
         if (!result.Succeeded)
         {
-            throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+            throw new Exception(string.Join(", ", 
+                result.Errors.Select(e => e.Description)));
         }
         
         await _unitOfWork.Users.GiveRoleAsync(user, request.Role);

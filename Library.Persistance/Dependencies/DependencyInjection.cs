@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
-namespace Library.Persistance;
+namespace Library.Persistance.Dependencies;
 
 public static class DependencyInjection
 {

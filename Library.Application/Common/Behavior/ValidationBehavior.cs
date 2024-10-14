@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Library.Application.Common.Exceptions;
 using MediatR;
-using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace Library.Application.Common.Behavior;
 

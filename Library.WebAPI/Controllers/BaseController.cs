@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-using Library.Domain;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers;

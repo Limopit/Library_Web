@@ -2,7 +2,7 @@
 using Library.Application.Common.Mappings;
 using Library.Domain;
 
-namespace Library.Application.Authors.Queries.GetAuhtorList;
+namespace Library.Application.Authors.Queries.GetAuthorList;
 
 public class AuthorListDto: IMapWith<Author>
 {

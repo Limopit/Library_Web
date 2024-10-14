@@ -1,4 +1,4 @@
-﻿namespace Library.Application.Authors.Queries.GetAuhtorList;
+﻿namespace Library.Application.Authors.Queries.GetAuthorList;
 
 public class AuthorListVm
 {

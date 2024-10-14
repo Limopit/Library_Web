@@ -20,7 +20,7 @@ public class IdentityServerConfig
                 AllowOfflineAccess = true,
                 RequireConsent = false,
                 AccessTokenLifetime = 3600,
-                AbsoluteRefreshTokenLifetime = 2592000,
+                AbsoluteRefreshTokenLifetime = 3600,
                 RefreshTokenUsage = TokenUsage.ReUse
             }
         };

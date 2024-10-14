@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Library.Persistance.Services;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Library.Identity;
@@ -31,7 +30,8 @@ public static class ServerSetup
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = configuration["Jwt:Issuer"],
                     ValidAudience = configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
                 };
             });
 
@@ -42,8 +42,10 @@ public static class ServerSetup
                 policy.RequireAuthenticatedUser();
                 policy.RequireClaim("scope", "api_scope");
             });
-            options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Admin"));
-            options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+            options.AddPolicy("RequireAdministratorRole", 
+                policy => policy.RequireRole("Admin"));
+            options.AddPolicy("RequireUserRole", 
+                policy => policy.RequireRole("User"));
         });
         
         return services;

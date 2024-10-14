@@ -1,6 +1,4 @@
-﻿using Library.Domain;
-
-namespace Library.Application.Authors.Queries.GetAuthorBooksList;
+﻿namespace Library.Application.Authors.Queries.GetAuthorBooksList;
 
 public class AuthorBooksListVm
 {

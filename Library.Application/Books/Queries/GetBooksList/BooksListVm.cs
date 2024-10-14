@@ -1,6 +1,6 @@
-﻿using Library.Application.Authors.Queries.GetAuthorDetails;
+﻿using Library.Application.Authors.Queries.GetAuthorById;
 
-namespace Library.Application.Books.Queries;
+namespace Library.Application.Books.Queries.GetBooksList;
 
 public class BooksListVm
 {

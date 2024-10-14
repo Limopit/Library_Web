@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Library.Application.Authors.Queries.GetAuthorBooksList;
 using Library.Application.Common.Mappings;
 using Library.Domain;
 
-namespace Library.Application.Books.Queries;
+namespace Library.Application.Books.Queries.GetBooksList;
 
 public class BooksListDto: IMapWith<Book>
 {

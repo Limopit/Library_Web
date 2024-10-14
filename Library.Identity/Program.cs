@@ -1,10 +1,4 @@
-using Library.Application.Interfaces;
-using Library.Application.Users.Commands.LoginUser;
-using Library.Identity;
 using Library.Identity.Configuration;
-using Library.Persistance.Services;
-using MediatR;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 

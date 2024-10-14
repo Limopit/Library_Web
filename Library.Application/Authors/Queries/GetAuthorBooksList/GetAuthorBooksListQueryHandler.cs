@@ -1,11 +1,7 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Library.Application.Authors.Queries.GetAuhtorList;
-using Library.Application.Common.Exceptions;
+﻿using Library.Application.Common.Exceptions;
 using Library.Application.Interfaces;
 using Library.Domain;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Application.Authors.Queries.GetAuthorBooksList;
 
