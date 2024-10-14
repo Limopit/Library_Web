@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Library.Application.Users.Commands.LoginUser;
 
-public class LoginUserCommandHandler: IRequestHandler<LoginUserCommand, string>
+public class LoginUserCommandHandler: IRequestHandler<LoginUserCommand, (string,string)>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -15,7 +15,7 @@ public class LoginUserCommandHandler: IRequestHandler<LoginUserCommand, string>
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<string> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+    public async Task<(string, string)> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         var result = await _unitOfWork.Users.SignInAsync(request.Email, request.Password, isPersistent: false, lockoutOnFailure: false);
         
@@ -31,6 +31,6 @@ public class LoginUserCommandHandler: IRequestHandler<LoginUserCommand, string>
             throw new NotFoundException(nameof(User), request.Email);
         }
         
-        return await _unitOfWork.Users.GenerateTokenForUser(user);
+        return await _unitOfWork.Users.GenerateTokenForUser(user, cancellationToken);
     }
 }

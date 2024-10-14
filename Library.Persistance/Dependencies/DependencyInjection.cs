@@ -2,6 +2,7 @@
 using Library.Domain;
 using Library.Persistance.DbPatterns;
 using Library.Persistance.DbPatterns.Repositories;
+using Library.Persistance.Interfaces;
 using Library.Persistance.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,7 @@ public static class DependencyInjection
         services.AddScoped<IBookRepository, BookRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IBorrowRecordRepository, BorrowRecordRepository>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         
         return services;

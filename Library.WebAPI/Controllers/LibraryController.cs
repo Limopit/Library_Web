@@ -134,6 +134,7 @@ public class LibraryController : BaseController
     public async Task<IActionResult> AddImageToBook([FromBody]AddImageCommand command)
     {
         var path = Path.Combine("wwwroot", "images/books", command.ImagePath);
+        command.ImagePath = path;
         await _mediator.Send(command);
     
         return NoContent();

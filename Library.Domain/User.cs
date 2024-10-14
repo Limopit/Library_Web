@@ -8,4 +8,5 @@ public class User: IdentityUser
     public string LastName { get; set; }
     public DateTime Birthday { get; set; }
     public ICollection<BorrowRecord> borrowRecords { get; set; }
+    public ICollection<RefreshToken> RefreshTokens { get; set; }
 }

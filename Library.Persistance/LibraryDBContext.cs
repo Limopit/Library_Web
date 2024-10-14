@@ -12,6 +12,7 @@ public sealed class LibraryDBContext: IdentityDbContext<User>, ILibraryDBContext
     public DbSet<Author> authors { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<BorrowRecord> BorrowRecords { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     public LibraryDBContext(DbContextOptions<LibraryDBContext> options) : base(options) {}
 
@@ -21,6 +22,7 @@ public sealed class LibraryDBContext: IdentityDbContext<User>, ILibraryDBContext
         modelBuilder.ApplyConfiguration(new BookConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new BorrowRecordConfiguration());
+        modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
         
         base.OnModelCreating(modelBuilder);
     }
