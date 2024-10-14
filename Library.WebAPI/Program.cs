@@ -2,12 +2,10 @@ using System.Reflection;
 using Library.Application;
 using Library.Application.Common.Mappings;
 using Library.Application.Interfaces;
-using Library.Application.Users.Commands.LoginUser;
 using Library.Identity;
 using Library.Persistance;
-using Library.Persistance.Services;
+using Library.Persistance.Dependencies;
 using Library.WebAPI.Middleware;
-using MediatR;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -2,22 +2,19 @@
 using Library.Domain;
 using Library.Persistance.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Library.Persistance.DbPatterns.Repositories;
 
 public class UserRepository: IUserRepository
 {
-    private readonly LibraryDBContext _libraryDbContext;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly ITokenService _tokenService;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public UserRepository(LibraryDBContext libraryDbContext, SignInManager<User> signInManager,
+    public UserRepository(SignInManager<User> signInManager,
         ITokenService tokenService, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
     {
-        _libraryDbContext = libraryDbContext;
         _signInManager = signInManager;
         _tokenService = tokenService;
         _userManager = userManager;

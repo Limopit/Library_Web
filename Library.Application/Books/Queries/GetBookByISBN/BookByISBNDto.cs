@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Library.Application.Authors.Queries.GetAuthorDetails;
+using Library.Application.Books.Queries.GetBookById;
 using Library.Application.Common.Mappings;
 using Library.Domain;
 
-namespace Library.Application.Books.Queries.GetBookById;
+namespace Library.Application.Books.Queries.GetBookByISBN;
 
 public class BookByISBNDto: IMapWith<Book>
 {

@@ -1,23 +1,21 @@
 ﻿using System.Security.Claims;
-using IdentityServer4.Extensions;
 using Library.Application.Authors.Commands.CreateAuthor;
 using Library.Application.Authors.Commands.DeleteAuthor;
 using Library.Application.Authors.Commands.UpdateAuthor;
-using Library.Application.Authors.Queries.GetAuhtorList;
 using Library.Application.Authors.Queries.GetAuthorBooksList;
-using Library.Application.Authors.Queries.GetAuthorDetails;
+using Library.Application.Authors.Queries.GetAuthorById;
+using Library.Application.Authors.Queries.GetAuthorList;
 using Library.Application.Books.Commands.AddImage;
 using Library.Application.Books.Commands.CreateBook;
 using Library.Application.Books.Commands.DeleteBook;
 using Library.Application.Books.Commands.UpdateBook;
-using Library.Application.Books.Queries;
 using Library.Application.Books.Queries.GetBookById;
 using Library.Application.Books.Queries.GetBookByISBN;
+using Library.Application.Books.Queries.GetBooksList;
 using Library.Application.BorrowRecords.Commands.CreateBorrowRecord;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Library.WebAPI.Controllers;
 

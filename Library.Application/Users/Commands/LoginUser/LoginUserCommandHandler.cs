@@ -2,7 +2,6 @@
 using Library.Application.Interfaces;
 using Library.Domain;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace Library.Application.Users.Commands.LoginUser;
 
@@ -17,7 +16,8 @@ public class LoginUserCommandHandler: IRequestHandler<LoginUserCommand, (string,
 
     public async Task<(string, string)> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
-        var result = await _unitOfWork.Users.SignInAsync(request.Email, request.Password, isPersistent: false, lockoutOnFailure: false);
+        var result = await _unitOfWork.Users.SignInAsync(request.Email,
+            request.Password, isPersistent: false, lockoutOnFailure: false);
         
         if (!result.Succeeded)
         {

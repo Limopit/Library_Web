@@ -13,9 +13,11 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg
             =>cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+        
         services.AddValidatorsFromAssemblyContaining<CreateAuthorCommand>();
         services.AddTransient(typeof(IPipelineBehavior<,>),
             typeof(ValidationBehavior<,>));
+        
         return services;
     }
 }

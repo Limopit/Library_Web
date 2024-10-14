@@ -30,6 +30,7 @@ public class AssignRoleCommandHandler: IRequestHandler<AssignRoleCommand, bool>
         }
         
         var addResult = await _unitOfWork.Users.GiveRoleAsync(user, request.Role);
+        
         return addResult.Succeeded;
     }
 }

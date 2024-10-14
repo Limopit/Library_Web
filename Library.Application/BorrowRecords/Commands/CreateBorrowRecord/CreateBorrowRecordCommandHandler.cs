@@ -39,6 +39,7 @@ public class CreateBorrowRecordCommandHandler: IRequestHandler<CreateBorrowRecor
 
         await _unitOfWork.BorrowRecords.AddRecordAsync(borrowRecord, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+        
         return borrowRecord.recordId;
     }
 }

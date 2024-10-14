@@ -1,7 +1,6 @@
-﻿using Library.Application.Interfaces;
-using MediatR;
+﻿using MediatR;
 
-namespace Library.Application.Tokens.RefreshToken;
+namespace Library.Application.Users.Commands.RefreshToken;
 
 public class RefreshTokenCommand: IRequest<(string, string)>
 {

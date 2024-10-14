@@ -1,6 +1,6 @@
-﻿using Library.Application.Authors.Queries.GetAuhtorList;
-using Library.Application.Authors.Queries.GetAuthorBooksList;
-using Library.Application.Authors.Queries.GetAuthorDetails;
+﻿using Library.Application.Authors.Queries.GetAuthorBooksList;
+using Library.Application.Authors.Queries.GetAuthorById;
+using Library.Application.Authors.Queries.GetAuthorList;
 using Library.Domain;
 
 namespace Library.Application.Interfaces;

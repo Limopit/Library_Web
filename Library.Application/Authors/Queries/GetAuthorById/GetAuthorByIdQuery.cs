@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Library.Application.Authors.Queries.GetAuthorDetails;
+namespace Library.Application.Authors.Queries.GetAuthorById;
 
 public class GetAuthorByIdQuery: IRequest<AuthorDetailsVm>
 {

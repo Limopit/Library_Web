@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Library.Application.Authors.Queries.GetAuthorDetails;
 using Library.Application.Common.Mappings;
 using Library.Domain;
 

@@ -1,5 +1,4 @@
-﻿using Library.Application.Books.Queries.GetBookById;
-using MediatR;
+﻿using MediatR;
 
 namespace Library.Application.Books.Queries.GetBookByISBN;
 

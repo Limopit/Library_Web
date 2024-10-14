@@ -1,5 +1,4 @@
 ﻿using Library.Application.Interfaces;
-using Library.Application.Tokens.RefreshToken;
 using MediatR;
 
 namespace Library.Application.Users.Commands.RefreshToken;
@@ -12,7 +11,6 @@ public class RefreshTokenCommandHandler: IRequestHandler<RefreshTokenCommand, (s
     {
         _unitOfWork = unitOfWork;
     }
-    
     
     public async Task<(string, string)> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
@@ -29,7 +27,9 @@ public class RefreshTokenCommandHandler: IRequestHandler<RefreshTokenCommand, (s
             await _unitOfWork.Users.GenerateTokenForUser(user, cancellationToken);
         
         _unitOfWork.RefreshTokens.RevokeToken(request.refreshToken);
+        
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+        
         return (newJWT, newRefresh);
     }
 }

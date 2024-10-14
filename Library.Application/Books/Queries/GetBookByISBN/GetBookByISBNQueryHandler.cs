@@ -1,10 +1,5 @@
-﻿using AutoMapper;
-using Library.Application.Books.Queries.GetBookById;
-using Library.Application.Common.Exceptions;
-using Library.Application.Interfaces;
-using Library.Domain;
+﻿using Library.Application.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Application.Books.Queries.GetBookByISBN;
 

@@ -1,5 +1,6 @@
-﻿using Library.Application.Books.Queries;
-using Library.Application.Books.Queries.GetBookById;
+﻿using Library.Application.Books.Queries.GetBookById;
+using Library.Application.Books.Queries.GetBookByISBN;
+using Library.Application.Books.Queries.GetBooksList;
 using Library.Domain;
 
 namespace Library.Application.Interfaces;

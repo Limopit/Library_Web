@@ -1,6 +1,6 @@
-﻿using Library.Application.Tokens.RefreshToken;
-using Library.Application.Users.Commands.AssignRole;
+﻿using Library.Application.Users.Commands.AssignRole;
 using Library.Application.Users.Commands.LoginUser;
+using Library.Application.Users.Commands.RefreshToken;
 using Library.Application.Users.Commands.RegisterUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

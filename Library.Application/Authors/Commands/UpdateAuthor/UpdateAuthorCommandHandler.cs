@@ -2,7 +2,6 @@
 using Library.Application.Interfaces;
 using Library.Domain;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Application.Authors.Commands.UpdateAuthor;
 

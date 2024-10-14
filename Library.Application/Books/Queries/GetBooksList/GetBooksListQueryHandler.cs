@@ -1,12 +1,7 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Library.Application.Authors.Queries.GetAuhtorList;
-using Library.Application.Authors.Queries.GetAuthorDetails;
-using Library.Application.Interfaces;
+﻿using Library.Application.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
-namespace Library.Application.Books.Queries;
+namespace Library.Application.Books.Queries.GetBooksList;
 
 public class GetBooksListQueryHandler: IRequestHandler<GetBooksListQuery, BooksListVm>
 {

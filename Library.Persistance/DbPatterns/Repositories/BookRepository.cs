@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Library.Application.Authors.Queries.GetAuthorDetails;
-using Library.Application.Books.Queries;
+using Library.Application.Authors.Queries.GetAuthorById;
 using Library.Application.Books.Queries.GetBookById;
+using Library.Application.Books.Queries.GetBookByISBN;
+using Library.Application.Books.Queries.GetBooksList;
 using Library.Application.Common.Exceptions;
 using Library.Application.Interfaces;
 using Library.Domain;
@@ -52,8 +53,6 @@ public class BookRepository: IBookRepository
         {
             throw new NotFoundException(nameof(Book), id);
         }
-        
-        
         
         return _mapper.Map<BookByIdDto>(book);
     }

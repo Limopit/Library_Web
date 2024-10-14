@@ -31,7 +31,7 @@ public class TokenService: ITokenService
         return (accessToken, refreshToken);
     }
 
-    public async Task<string> GenerateAccessToken(User user, UserManager<User> userManager)
+    private async Task<string> GenerateAccessToken(User user, UserManager<User> userManager)
     {
         var issuer = _configuration["Jwt:Issuer"];
         var audience = _configuration["Jwt:Audience"];
@@ -67,7 +67,7 @@ public class TokenService: ITokenService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public async Task<string> GenerateRefreshToken(User user, CancellationToken cancellationToken)
+    private async Task<string> GenerateRefreshToken(User user, CancellationToken cancellationToken)
     {
         var randomBytes = new byte[64];
         using (var rng = RandomNumberGenerator.Create())
