@@ -21,5 +21,10 @@ public class UserConfiguration: IEntityTypeConfiguration<User>
         builder.HasMany(user => user.borrowRecords)
             .WithOne(record => record.user)
             .HasForeignKey(record => record.userId);
+        
+        builder.HasMany(u => u.RefreshTokens)
+            .WithOne(rt => rt.User)
+            .HasForeignKey(rt => rt.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

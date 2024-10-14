@@ -1,5 +1,6 @@
 ﻿using Library.Application.Interfaces;
 using Library.Domain;
+using Library.Persistance.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.JsonWebTokens;
 
@@ -35,12 +36,17 @@ public class UserRepository: IUserRepository
 
     public async Task<User?> FindUserByEmail(string email)
     {
-       return await _signInManager.UserManager.FindByEmailAsync(email);
+       return await _userManager.FindByEmailAsync(email);
     }
 
-    public async Task<string> GenerateTokenForUser(User user)
+    public async Task<User?> FindUserById(string id)
     {
-        return await _tokenService.GenerateToken(user, _userManager);
+        return await _userManager.FindByIdAsync(id);
+    }
+
+    public async Task<(string accessToken, string refreshToken)> GenerateTokenForUser(User user, CancellationToken token)
+    {
+        return await _tokenService.GenerateTokens(user, _userManager, token);
     }
 
     public async Task<bool> UserRoleExistsAsync(string role)

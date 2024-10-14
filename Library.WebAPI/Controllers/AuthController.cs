@@ -1,4 +1,5 @@
-﻿using Library.Application.Users.Commands.AssignRole;
+﻿using Library.Application.Tokens.RefreshToken;
+using Library.Application.Users.Commands.AssignRole;
 using Library.Application.Users.Commands.LoginUser;
 using Library.Application.Users.Commands.RegisterUser;
 using MediatR;
@@ -22,8 +23,8 @@ public class AuthController: BaseController
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
     {
-        var token = await _mediator.Send(command);
-        return Ok(new { Token = token });
+        var (jwt, refresh) = await _mediator.Send(command);
+        return Ok(new { jwt, refresh });
     }
     
     [Authorize(Roles = "Admin")]
@@ -31,6 +32,13 @@ public class AuthController: BaseController
     public async Task<IActionResult> AssignRole([FromBody] AssignRoleCommand command)
     {
         var result = await _mediator.Send(command);
-        return result ? Ok() : BadRequest("Не удалось назначить роль.");
+        return Ok(result);
+    }
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenCommand command)
+    {
+        var (jwt, refresh) = await _mediator.Send(command); 
+        return Ok(new { jwt, refresh });
     }
 }

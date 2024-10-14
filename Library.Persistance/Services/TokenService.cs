@@ -1,8 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Library.Application.Interfaces;
 using Library.Domain;
+using Library.Persistance.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -12,15 +14,25 @@ namespace Library.Persistance.Services;
 public class TokenService: ITokenService
 {
     private readonly IConfiguration _configuration;
-
-    public TokenService(IConfiguration configuration)
+    private readonly ILibraryDBContext _libraryDbContext;
+    
+    public TokenService(IConfiguration configuration, ILibraryDBContext libraryDbContext)
     {
         _configuration = configuration;
+        _libraryDbContext = libraryDbContext;
     }
 
-    public async Task<string> GenerateToken(User user, UserManager<User> userManager)
+    public async Task<(string accessToken, string refreshToken)> GenerateTokens(User user,
+        UserManager<User> userManager, CancellationToken token)
     {
-        
+        var accessToken = await GenerateAccessToken(user, userManager);
+        var refreshToken = await GenerateRefreshToken(user, token);
+
+        return (accessToken, refreshToken);
+    }
+
+    public async Task<string> GenerateAccessToken(User user, UserManager<User> userManager)
+    {
         var issuer = _configuration["Jwt:Issuer"];
         var audience = _configuration["Jwt:Audience"];
         
@@ -53,5 +65,27 @@ public class TokenService: ITokenService
             signingCredentials: creds);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public async Task<string> GenerateRefreshToken(User user, CancellationToken cancellationToken)
+    {
+        var randomBytes = new byte[64];
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(randomBytes);
+        }
+        
+        var refreshToken = new RefreshToken
+        {
+            Token = Convert.ToBase64String(randomBytes),
+            Expires = DateTime.UtcNow.AddDays(1),
+            Created = DateTime.UtcNow,
+            UserId = user.Id
+        };
+
+        await _libraryDbContext.RefreshTokens.AddAsync(refreshToken, cancellationToken);
+        await _libraryDbContext.SaveChangesAsync(cancellationToken);
+
+        return refreshToken.Token;
     }
 }

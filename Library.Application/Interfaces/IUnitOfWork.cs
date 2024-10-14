@@ -6,5 +6,6 @@ public interface IUnitOfWork
     IBookRepository Books { get; }
     IUserRepository Users { get; }
     IBorrowRecordRepository BorrowRecords { get; }
+    IRefreshTokenRepository RefreshTokens { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

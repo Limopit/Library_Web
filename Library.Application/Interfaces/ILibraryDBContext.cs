@@ -9,5 +9,6 @@ public interface ILibraryDBContext
     DbSet<Author> authors { get; set; }
     DbSet<User> Users { get; set; }
     DbSet<BorrowRecord> BorrowRecords { get; set; }
+    DbSet<RefreshToken> RefreshTokens { get; set; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
