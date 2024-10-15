@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Library.Application.Interfaces;
+using Library.Application.Interfaces.Repositories;
 using Library.Domain;
 using Library.Persistance.DbPatterns.Repositories;
 using Library.Persistance.Interfaces;

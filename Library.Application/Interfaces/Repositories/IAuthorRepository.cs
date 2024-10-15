@@ -3,14 +3,11 @@ using Library.Application.Authors.Queries.GetAuthorById;
 using Library.Application.Authors.Queries.GetAuthorList;
 using Library.Domain;
 
-namespace Library.Application.Interfaces;
+namespace Library.Application.Interfaces.Repositories;
 
-public interface IAuthorRepository
+public interface IAuthorRepository: IBaseRepository<Author>
 {
-    Task AddAuthorAsync(Author author, CancellationToken token);
-    Task DeleteAuthorAsync(Author author);
     Task<AuthorBooksListVm> GetAuthorBookListAsync(Guid id, CancellationToken token);
     Task<AuthorDetailsVm> GetAuthorInfoByIdAsync(Guid id, CancellationToken token);
-    Task<Author?> GetAuthorByIdAsync(Guid id, CancellationToken token);
-    Task<AuthorListVm> GetAuthorListAsync(CancellationToken token);
+    Task<AuthorListVm> GetEntityListAsync(CancellationToken token);
 }

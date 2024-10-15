@@ -1,4 +1,5 @@
 ﻿using Library.Application.Interfaces;
+using Library.Application.Interfaces.Repositories;
 using Library.Domain;
 using Library.Persistance.DbPatterns;
 using Library.Persistance.DbPatterns.Repositories;

@@ -5,30 +5,19 @@ using Library.Application.Authors.Queries.GetAuthorById;
 using Library.Application.Authors.Queries.GetAuthorList;
 using Library.Application.Common.Exceptions;
 using Library.Application.Interfaces;
+using Library.Application.Interfaces.Repositories;
 using Library.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Persistance.DbPatterns.Repositories;
 
-public class AuthorRepository: IAuthorRepository
+public class AuthorRepository: BaseRepository<Author>, IAuthorRepository
 {
-    private readonly LibraryDBContext _libraryDbContext;
     private readonly IMapper _mapper;
 
-    public AuthorRepository(LibraryDBContext libraryDbContext, IMapper mapper)
+    public AuthorRepository(LibraryDBContext libraryDbContext, IMapper mapper) : base(libraryDbContext)
     {
-        _libraryDbContext = libraryDbContext;
         _mapper = mapper;
-    }
-    
-    public async Task AddAuthorAsync(Author author, CancellationToken token)
-    {
-        await _libraryDbContext.authors.AddAsync(author, token);
-    }
-
-    public async Task DeleteAuthorAsync(Author author)
-    {
-        _libraryDbContext.authors.Remove(author);
     }
 
     public async Task<AuthorBooksListVm> GetAuthorBookListAsync(Guid id, CancellationToken token)
@@ -56,13 +45,7 @@ public class AuthorRepository: IAuthorRepository
         return _mapper.Map<AuthorDetailsVm>(authorInfo);
     }
 
-    public async Task<Author?> GetAuthorByIdAsync(Guid id, CancellationToken token)
-    {
-        return await _libraryDbContext.authors
-            .FindAsync(new object?[] { id }, token);
-    }
-
-    public async Task<AuthorListVm> GetAuthorListAsync(CancellationToken token)
+    public async Task<AuthorListVm> GetEntityListAsync(CancellationToken token)
     {
         var authorList = await _libraryDbContext.authors
             .ProjectTo<AuthorListDto>(_mapper.ConfigurationProvider)

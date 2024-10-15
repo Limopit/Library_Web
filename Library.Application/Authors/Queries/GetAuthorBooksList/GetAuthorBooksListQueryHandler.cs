@@ -14,7 +14,7 @@ public class GetAuthorBooksListQueryHandler: IRequestHandler<GetAuthorBooksListQ
 
     public async Task<AuthorBooksListVm> Handle(GetAuthorBooksListQuery request, CancellationToken cancellationToken)
     {
-        if (await _unitOfWork.Authors.GetAuthorByIdAsync(request.author_id, cancellationToken) == null)
+        if (await _unitOfWork.Authors.GetEntityByIdAsync(request.author_id, cancellationToken) == null)
         {
             throw new NotFoundException(nameof(Author), request.author_id);
         }

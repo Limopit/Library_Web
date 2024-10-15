@@ -16,11 +16,19 @@ public class CreateBorrowRecordCommandHandler: IRequestHandler<CreateBorrowRecor
     
     public async Task<Guid> Handle(CreateBorrowRecordCommand request, CancellationToken cancellationToken)
     {
-        var book = await _unitOfWork.Books.GetBookByIdAsync(request.BookId, cancellationToken);
+        var book = await _unitOfWork.Books.GetEntityByIdAsync(request.BookId, cancellationToken);
 
         if (book == null)
         {
             throw new NotFoundException(nameof(Book), request.BookId);
+        }
+
+        var record = await _unitOfWork.BorrowRecords
+            .GetBorrowRecordByBookIdAsync(request.BookId, cancellationToken);
+
+        if (record != null && record.book_issue_expiration_date > DateTime.Now)
+        {
+            throw new Exception("Book is issued already, come back later");
         }
 
         var user = await _unitOfWork.Users.FindUserByEmail(request.Email);
@@ -37,7 +45,7 @@ public class CreateBorrowRecordCommandHandler: IRequestHandler<CreateBorrowRecor
             book_issue_expiration_date = request.ReturnDate
         };
 
-        await _unitOfWork.BorrowRecords.AddRecordAsync(borrowRecord, cancellationToken);
+        await _unitOfWork.BorrowRecords.AddEntityAsync(borrowRecord, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         
         return borrowRecord.recordId;

@@ -1,4 +1,6 @@
-﻿namespace Library.Application.Interfaces;
+﻿using Library.Application.Interfaces.Repositories;
+
+namespace Library.Application.Interfaces;
 
 public interface IUnitOfWork
 {

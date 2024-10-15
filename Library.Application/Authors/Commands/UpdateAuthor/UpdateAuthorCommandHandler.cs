@@ -14,7 +14,7 @@ public class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand>
     
     public async Task Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
     {
-        var author = await _unitOfWork.Authors.GetAuthorByIdAsync(request.author_id, cancellationToken);
+        var author = await _unitOfWork.Authors.GetEntityByIdAsync(request.author_id, cancellationToken);
 
         if (author == null || author.author_id != request.author_id)
         {

@@ -1,19 +1,17 @@
 ﻿using Library.Application.Interfaces;
+using Library.Application.Interfaces.Repositories;
 using Library.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Persistance.DbPatterns.Repositories;
 
-public class BorrowRecordRepository: IBorrowRecordRepository
+public class BorrowRecordRepository: BaseRepository<BorrowRecord>, IBorrowRecordRepository
 {
-    private readonly ILibraryDBContext _libraryDbContext;
+    public BorrowRecordRepository(LibraryDBContext libraryDbContext): base(libraryDbContext){}
 
-    public BorrowRecordRepository(ILibraryDBContext libraryDbContext)
+    public async Task<BorrowRecord?> GetBorrowRecordByBookIdAsync(Guid bookId, CancellationToken token)
     {
-        _libraryDbContext = libraryDbContext;
-    }
-    
-    public async Task AddRecordAsync(BorrowRecord record, CancellationToken token)
-    {
-        await _libraryDbContext.BorrowRecords.AddAsync(record, token);
+        return await _libraryDbContext.BorrowRecords
+            .FirstOrDefaultAsync(br => br.bookId == bookId, token);
     }
 }

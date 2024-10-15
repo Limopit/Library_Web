@@ -24,7 +24,6 @@ public class LibraryController : BaseController
 {
     public LibraryController(IMediator mediator) : base(mediator){}
     
-    [Authorize]
     [HttpGet("author/")]
     public async Task<ActionResult<AuthorListVm>> GetAllAuthors()
     {
@@ -46,7 +45,7 @@ public class LibraryController : BaseController
         return Ok(author);
     }
 
-    //[Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpPost("author/")]
     public async Task<ActionResult<Guid>> CreateNewAuthor([FromBody] CreateAuthorCommand command)
     {
@@ -54,6 +53,7 @@ public class LibraryController : BaseController
         return Ok(author_id);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("author/")]
     public async Task<IActionResult> UpdateAuthor([FromBody] UpdateAuthorCommand command)
     {
@@ -61,6 +61,7 @@ public class LibraryController : BaseController
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("author/")]
     public async Task<IActionResult> DeleteAuthor(Guid id)
     {
@@ -72,6 +73,7 @@ public class LibraryController : BaseController
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost("books/")]
     public async Task<ActionResult<Guid>> AddBook([FromBody] CreateBookCommand command)
     {
@@ -79,6 +81,7 @@ public class LibraryController : BaseController
         return Ok(book_id);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("books/")]
     public async Task<IActionResult> DeleteBook(Guid id)
     {
@@ -90,6 +93,7 @@ public class LibraryController : BaseController
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("books/")]
     public async Task<ActionResult> UpdateBook([FromBody] UpdateBookCommand command)
     {
@@ -128,6 +132,7 @@ public class LibraryController : BaseController
         return Ok(result);
     }
     
+    [Authorize(Roles = "Admin")]
     [HttpPost("books/{bookId}/add-image")]
     public async Task<IActionResult> AddImageToBook([FromBody]AddImageCommand command)
     {
