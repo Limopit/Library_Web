@@ -23,7 +23,7 @@ public class CreateAuthorCommandHandler: IRequestHandler<CreateAuthorCommand, Gu
             books = request.books
         };
 
-        await _unitOfWork.Authors.AddAuthorAsync(author, cancellationToken);
+        await _unitOfWork.Authors.AddEntityAsync(author, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return author.author_id;
     }

@@ -1,7 +1,7 @@
 ﻿using Library.Domain;
 using Microsoft.AspNetCore.Identity;
 
-namespace Library.Application.Interfaces;
+namespace Library.Application.Interfaces.Repositories;
 
 public interface IUserRepository
 {

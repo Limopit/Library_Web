@@ -1,6 +1,6 @@
 ﻿using Library.Domain;
 
-namespace Library.Application.Interfaces;
+namespace Library.Application.Interfaces.Repositories;
 
 public interface IRefreshTokenRepository
 {

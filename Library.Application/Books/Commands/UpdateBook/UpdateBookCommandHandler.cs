@@ -14,7 +14,7 @@ public class UpdateBookCommandHandler: IRequestHandler<UpdateBookCommand>
     
     public async Task Handle(UpdateBookCommand request, CancellationToken cancellationToken)
     {
-        var book = await _unitOfWork.Books.GetBookByIdAsync(request.book_id, cancellationToken);
+        var book = await _unitOfWork.Books.GetEntityByIdAsync(request.book_id, cancellationToken);
         
         if (book == null || book.book_id != request.book_id)
         {

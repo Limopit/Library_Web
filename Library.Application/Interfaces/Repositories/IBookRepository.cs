@@ -3,15 +3,13 @@ using Library.Application.Books.Queries.GetBookByISBN;
 using Library.Application.Books.Queries.GetBooksList;
 using Library.Domain;
 
-namespace Library.Application.Interfaces;
+namespace Library.Application.Interfaces.Repositories;
 
-public interface IBookRepository
+public interface IBookRepository: IBaseRepository<Book>
 {
-    Task AddBookAsync(Book book, Author author, CancellationToken token);
-    Task DeleteBookAsync(Book book);
+    void AddBookToAuthor(Author author, Book book);
     Task<BooksListVm> GetBookListAsync(CancellationToken token);
     Task<BookByIdDto> GetBookInfoByIdAsync(Guid id, CancellationToken token);
-    Task<Book?> GetBookByIdAsync(Guid id, CancellationToken token);
     Task<BookByISBNDto> GetBookByISBNAsync(String ISBN, CancellationToken token);
 
 }

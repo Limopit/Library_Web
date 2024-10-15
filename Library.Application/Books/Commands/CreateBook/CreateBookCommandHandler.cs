@@ -25,14 +25,15 @@ public class CreateBookCommandHandler: IRequestHandler<CreateBookCommand, Guid>
             author_id = request.author_id
         };
 
-        var author = await _unitOfWork.Authors.GetAuthorByIdAsync(request.author_id, cancellationToken);
+        var author = await _unitOfWork.Authors.GetEntityByIdAsync(request.author_id, cancellationToken);
         
         if (author == null || author.author_id != request.author_id)
         {
             throw new NotFoundException(nameof(Author), request.author_id);
         }
         
-        await _unitOfWork.Books.AddBookAsync(book, author, cancellationToken);
+        await _unitOfWork.Books.AddEntityAsync(book, cancellationToken);
+        _unitOfWork.Books.AddBookToAuthor(author, book);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

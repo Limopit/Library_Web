@@ -1,14 +1,15 @@
 ﻿using Library.Application.Common.Exceptions;
 using Library.Application.Interfaces;
+using Library.Application.Interfaces.Repositories;
 using Library.Domain;
 
 namespace Library.Persistance.DbPatterns.Repositories;
 
 public class RefreshTokenRepository: IRefreshTokenRepository
 {
-    private readonly ILibraryDBContext _libraryDbContext;
+    private readonly LibraryDBContext _libraryDbContext;
 
-    public RefreshTokenRepository(ILibraryDBContext libraryDbContext)
+    public RefreshTokenRepository(LibraryDBContext libraryDbContext)
     {
         _libraryDbContext = libraryDbContext;
     }

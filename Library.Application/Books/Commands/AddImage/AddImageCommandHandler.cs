@@ -16,7 +16,7 @@ public class AddImageCommandHandler: IRequestHandler<AddImageCommand>
     
     public async Task Handle(AddImageCommand request, CancellationToken cancellationToken)
     {
-        var book = await _unitOfWork.Books.GetBookByIdAsync(request.BookId, cancellationToken);
+        var book = await _unitOfWork.Books.GetEntityByIdAsync(request.BookId, cancellationToken);
         
         if (book == null)
         {
