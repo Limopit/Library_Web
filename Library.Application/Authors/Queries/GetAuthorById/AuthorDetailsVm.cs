@@ -6,6 +6,7 @@ namespace Library.Application.Authors.Queries.GetAuthorById;
 
 public class AuthorDetailsVm: IMapWith<Author>
 {
+    public Guid author_id { get; set; }
     public string author_firstname { get; set; }
     public string author_lastname { get; set; }
     public DateTime? author_birthday { get; set; }
@@ -15,6 +16,9 @@ public class AuthorDetailsVm: IMapWith<Author>
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Author, AuthorDetailsVm>()
+            .ForMember(authorVM => authorVM.author_id,
+                opt
+                    => opt.MapFrom(author => author.author_id))
             .ForMember(authorVM => authorVM.author_firstname,
                 opt
                     => opt.MapFrom(author => author.author_firstname))

@@ -15,17 +15,17 @@ public class BaseRepository<T>: IBaseRepository<T> where T: class
         _dbSet = _libraryDbContext.Set<T>();
     }
 
-    public virtual async Task<T?> GetEntityByIdAsync(Guid id, CancellationToken token)
+    public async Task<T?> GetEntityByIdAsync(Guid id, CancellationToken token)
     {
         return await _dbSet.FindAsync(new object?[] { id }, token);
     }
 
-    public virtual async Task AddEntityAsync(T entity, CancellationToken token)
+    public async Task AddEntityAsync(T entity, CancellationToken token)
     {
         await _dbSet.AddAsync(entity, token);
     }
 
-    public virtual async Task RemoveEntity(T entity)
+    public async Task RemoveEntity(T entity)
     {
         _dbSet.Remove(entity);
     }
