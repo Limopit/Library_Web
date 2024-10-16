@@ -3,11 +3,11 @@ using MediatR;
 
 namespace Library.Application.Authors.Queries.GetAuthorById;
 
-public class AuthorByIdQueryHandler: IRequestHandler<GetAuthorByIdQuery, AuthorDetailsVm>
+public class GetAuthorByIdQueryHandler: IRequestHandler<GetAuthorByIdQuery, AuthorDetailsVm>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public AuthorByIdQueryHandler(IUnitOfWork unitOfWork)
+    public GetAuthorByIdQueryHandler(IUnitOfWork unitOfWork)
         => _unitOfWork = unitOfWork;
     
     public async Task<AuthorDetailsVm> Handle(GetAuthorByIdQuery request, CancellationToken cancellationToken)

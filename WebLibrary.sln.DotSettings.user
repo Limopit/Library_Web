@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a58863a3_002D8fd8_002D46b1_002D802c_002D9c6bb4b75d71/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateAuthorCommandHandler_Success" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::2288F0AF-2153-47EC-B7FC-D220E6DC35DB::net6.0::Library.Tests.Tests.Author.CreateAuthorCommandHandlerTests.CreateAuthorCommandHandler_Success&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2288F0AF-2153-47EC-B7FC-D220E6DC35DB::net6.0::Library.Tests.Tests.Author.GetAuthorByIdTests.GetAuthorByIdTest_Success&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2288F0AF-2153-47EC-B7FC-D220E6DC35DB::net6.0::Library.Tests.Tests.Author.GetAuthorByIdTests.GetAuthorByIdTest_Failure&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
