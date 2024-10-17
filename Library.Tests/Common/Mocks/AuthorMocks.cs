@@ -8,19 +8,19 @@ namespace Library.Tests.Common.Mocks;
 
 public class AuthorMocks
 {
-    public readonly Mock<IAuthorRepository> _authorRepositoryMock;
+    public readonly Mock<IAuthorRepository> AuthorRepositoryMock;
 
     public AuthorMocks(Mock<IUnitOfWork> unitOfWorkMock)
     {
-        _authorRepositoryMock = new Mock<IAuthorRepository>();
+        AuthorRepositoryMock = new Mock<IAuthorRepository>();
         
-        unitOfWorkMock.Setup(uow => uow.Authors).Returns(_authorRepositoryMock.Object);
+        unitOfWorkMock.Setup(uow => uow.Authors).Returns(AuthorRepositoryMock.Object);
     }
     
     
     public void SetupAddAuthorAsync(Author author, CancellationToken cancellationToken = default)
     {
-        _authorRepositoryMock.Setup(repo 
+        AuthorRepositoryMock.Setup(repo 
                 => repo.AddEntityAsync(It.IsAny<Author>(), cancellationToken))
             .Callback<Author, CancellationToken>((a, _) =>
             {
@@ -34,7 +34,7 @@ public class AuthorMocks
 
     public void SetupGetAuthorByIdAsync(Guid authorId, Author author, CancellationToken cancellationToken = default)
     {
-        _authorRepositoryMock.Setup(repo 
+        AuthorRepositoryMock.Setup(repo 
                 => repo.GetAuthorInfoByIdAsync(authorId, cancellationToken))!
             .ReturnsAsync(author != null ? new AuthorDetailsVm
             {

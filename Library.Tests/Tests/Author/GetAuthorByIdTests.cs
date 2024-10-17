@@ -1,11 +1,9 @@
-﻿using Library.Application.Authors.Commands.CreateAuthor;
+﻿using FluentAssertions;
 using Library.Application.Authors.Queries.GetAuthorById;
 using Library.Domain;
 using Library.Tests.Common;
 using Library.Tests.Common.Mocks;
-using Moq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Library.Tests.Tests.Author;
 
@@ -16,8 +14,8 @@ public class GetAuthorByIdTests: BaseTestCommand
 
     public GetAuthorByIdTests()
     {
-        _handler = new GetAuthorByIdQueryHandler(_context._unitOfWorkMock.Object);
-        _mocks = new AuthorMocks(_context._unitOfWorkMock);
+        _handler = new GetAuthorByIdQueryHandler(Context.UnitOfWorkMock.Object);
+        _mocks = new AuthorMocks(Context.UnitOfWorkMock);
     }
     
     [Fact]
@@ -43,10 +41,10 @@ public class GetAuthorByIdTests: BaseTestCommand
         var result = await _handler.Handle(getAuthorCommand, token);
         
         // Assert
-        Assert.NotNull(result);
-        Assert.Equal(expectedAuthor.author_id, result.author_id);
-        Assert.Equal(expectedAuthor.author_firstname, result.author_firstname);
-        Assert.Equal(expectedAuthor.author_lastname, result.author_lastname);
+        result.Should().NotBeNull();
+        result.author_id.Should().Be(expectedAuthor.author_id);
+        result.author_firstname.Should().Be(expectedAuthor.author_firstname);
+        result.author_lastname.Should().Be(expectedAuthor.author_lastname);
     }
     
     [Fact]
@@ -64,6 +62,6 @@ public class GetAuthorByIdTests: BaseTestCommand
         var result = await _handler.Handle(getAuthorCommand, token);
         
         // Assert
-        Assert.Null(result);
+        result.Should().BeNull();
     }
 }

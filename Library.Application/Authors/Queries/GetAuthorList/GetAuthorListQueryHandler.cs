@@ -12,6 +12,7 @@ public class GetAuthorListQueryHandler: IRequestHandler<GetAuthorListQuery, Auth
     
     public async Task<AuthorListVm> Handle(GetAuthorListQuery request, CancellationToken cancellationToken)
     {
-        return await _unitOfWork.Authors.GetEntityListAsync(cancellationToken);
+        return await _unitOfWork.Authors.GetPaginatedEntityListAsync(
+            request.PageNumber, request.PageSize, cancellationToken);
     }
 }

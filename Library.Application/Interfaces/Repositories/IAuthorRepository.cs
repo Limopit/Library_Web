@@ -9,5 +9,5 @@ public interface IAuthorRepository: IBaseRepository<Author>
 {
     Task<AuthorBooksListVm> GetAuthorBookListAsync(Guid id, CancellationToken token);
     Task<AuthorDetailsVm> GetAuthorInfoByIdAsync(Guid id, CancellationToken token);
-    Task<AuthorListVm> GetEntityListAsync(CancellationToken token);
+    Task<AuthorListVm> GetPaginatedEntityListAsync(int pageNumber, int pageSize, CancellationToken token);
 }
