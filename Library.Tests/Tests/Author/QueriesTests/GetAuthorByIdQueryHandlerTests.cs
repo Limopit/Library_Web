@@ -5,14 +5,14 @@ using Library.Tests.Common;
 using Library.Tests.Common.Mocks;
 using Xunit;
 
-namespace Library.Tests.Tests.Author;
+namespace Library.Tests.Tests.Author.QueriesTests;
 
-public class GetAuthorByIdTests: BaseTestCommand
+public class GetAuthorByIdQueryHandlerTests: BaseTestCommand
 {
     private readonly GetAuthorByIdQueryHandler _handler;
     private readonly AuthorMocks _mocks;
 
-    public GetAuthorByIdTests()
+    public GetAuthorByIdQueryHandlerTests()
     {
         _handler = new GetAuthorByIdQueryHandler(Context.UnitOfWorkMock.Object);
         _mocks = new AuthorMocks(Context.UnitOfWorkMock);
@@ -34,7 +34,7 @@ public class GetAuthorByIdTests: BaseTestCommand
 
         CancellationToken token = new CancellationToken();
 
-        _mocks.SetupGetAuthorByIdAsync(authorId, expectedAuthor, token);
+        _mocks.SetupGetAuthorInfoByIdAsync(authorId, expectedAuthor, token);
 
         // Act
         var getAuthorCommand = new GetAuthorByIdQuery { author_id = authorId };
@@ -55,7 +55,7 @@ public class GetAuthorByIdTests: BaseTestCommand
 
         CancellationToken token = new CancellationToken();
 
-        _mocks.SetupGetAuthorByIdAsync(authorId, null, token);
+        _mocks.SetupGetAuthorInfoByIdAsync(authorId, null, token);
 
         // Act
         var getAuthorCommand = new GetAuthorByIdQuery { author_id = authorId };

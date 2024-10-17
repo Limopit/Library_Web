@@ -1,4 +1,6 @@
-﻿using Library.Application.Authors.Queries.GetAuthorById;
+﻿using Library.Application.Authors.Queries.GetAuthorBooksList;
+using Library.Application.Authors.Queries.GetAuthorById;
+using Library.Application.Authors.Queries.GetAuthorList;
 using Library.Application.Interfaces;
 using Library.Application.Interfaces.Repositories;
 using Library.Domain;
@@ -21,18 +23,11 @@ public class AuthorMocks
     public void SetupAddAuthorAsync(Author author, CancellationToken cancellationToken = default)
     {
         AuthorRepositoryMock.Setup(repo 
-                => repo.AddEntityAsync(It.IsAny<Author>(), cancellationToken))
-            .Callback<Author, CancellationToken>((a, _) =>
-            {
-                if (a.author_id == Guid.Empty)
-                {
-                    a.author_id = Guid.NewGuid();
-                }
-            })
+                => repo.AddEntityAsync(author, cancellationToken))
             .Returns(Task.CompletedTask);
     }
 
-    public void SetupGetAuthorByIdAsync(Guid authorId, Author author, CancellationToken cancellationToken = default)
+    public void SetupGetAuthorInfoByIdAsync(Guid authorId, Author author, CancellationToken cancellationToken = default)
     {
         AuthorRepositoryMock.Setup(repo 
                 => repo.GetAuthorInfoByIdAsync(authorId, cancellationToken))!
@@ -47,5 +42,47 @@ public class AuthorMocks
                     => new BookListDto { book_id = b.book_id, book_name = b.book_name,
                         book_genre = b.book_genre}).ToList()
             } : null);
+    }
+
+    public void SetupGetAuthorBookListAsync(Guid id, IList<Book> books, CancellationToken token)
+    {
+        AuthorRepositoryMock.Setup(repo => repo.GetAuthorBookListAsync(id, token))!
+            .ReturnsAsync(new AuthorBooksListVm
+            {
+                Books = books.Select(b => new AuthorBooksListDto
+                {
+                    ISBN = b.ISBN,
+                    book_name = b.book_name,
+                    book_genre = b.book_genre,
+                    book_description = b.book_description
+                }).ToList()
+            });
+    }
+
+    public void SetupGetAuthorListAsync(List<Author> authors, CancellationToken token)
+    {
+        AuthorRepositoryMock.Setup(repo => repo.GetPaginatedEntityListAsync(1, 10, token))
+            .ReturnsAsync(new AuthorListVm
+            {
+                Authors = authors.Select(author => new AuthorListDto
+                {
+                    AuthorId = author.author_id,
+                    AuthorLastname = author.author_lastname,
+                    AuthorFirstname = author.author_firstname
+                }).ToList()
+            });
+    }
+
+    public void SetupGetAuthorByIdAsync(Guid authorId, Author author)
+    {
+        AuthorRepositoryMock.Setup(repo => repo.GetEntityByIdAsync(authorId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(author);
+    }
+    
+    public void SetupRemoveAuthorAsync(Author author)
+    {
+        AuthorRepositoryMock.Setup(repo 
+                => repo.RemoveEntity(author))
+            .Returns(Task.CompletedTask);
     }
 }

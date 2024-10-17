@@ -6,7 +6,7 @@ using Library.Tests.Common.Mocks;
 using Moq;
 using Xunit;
 
-namespace Library.Tests.Tests.Author;
+namespace Library.Tests.Tests.Author.CommandsTests;
 
 public class CreateAuthorCommandHandlerTests: BaseTestCommand
 {
