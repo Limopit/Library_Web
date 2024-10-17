@@ -13,6 +13,7 @@ using Library.Application.Books.Queries.GetBookById;
 using Library.Application.Books.Queries.GetBookByISBN;
 using Library.Application.Books.Queries.GetBooksList;
 using Library.Application.BorrowRecords.Commands.CreateBorrowRecord;
+using Library.Application.BorrowRecords.Queries.GetExpiringBorrowRecord;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -139,12 +140,26 @@ public class LibraryController : BaseController
         
         return Ok(result);
     }
+
+    [Authorize]
+    [HttpGet("user/borrows/expiring")]
+    public async Task<ActionResult<ExpiringRecordVm>> GetExpiringRecord()
+    {
+        var command = new GetExpiringBorrowRecordQuery
+        {
+            Email = User.FindFirstValue(ClaimTypes.NameIdentifier)
+        };
+        
+        var result = await _mediator.Send(command);
+        
+        return Ok(result);
+    }
     
     [Authorize(Roles = "Admin")]
     [HttpPost("books/{bookId}/add-image")]
     public async Task<IActionResult> AddImageToBook([FromBody]AddImageCommand command)
     {
-        var path = Path.Combine("wwwroot", "images/books", command.ImagePath);
+        var path = Path.Combine("wwwroot", "images","books", command.ImagePath);
         command.ImagePath = path;
         await _mediator.Send(command);
     

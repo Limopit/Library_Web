@@ -7,6 +7,7 @@ using Library.Persistance;
 using Library.Persistance.Dependencies;
 using Library.WebAPI.Middleware;
 using Microsoft.OpenApi.Models;
+using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +70,8 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
+builder.Services.AddQuartz();
 
 var app = builder.Build();
 
