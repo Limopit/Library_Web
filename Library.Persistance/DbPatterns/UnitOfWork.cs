@@ -36,7 +36,7 @@ public class UnitOfWork: IUnitOfWork
         Authors = new AuthorRepository(_context, _mapper);
         Books = new BookRepository(_context, _mapper);
         Users = new UserRepository(_signInManager, _tokenService, _userManager, _roleManager);
-        BorrowRecords = new BorrowRecordRepository(_context);
+        BorrowRecords = new BorrowRecordRepository(_context, _mapper);
         RefreshTokens = new RefreshTokenRepository(_context);
     }
     
