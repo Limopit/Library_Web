@@ -1,14 +1,12 @@
-﻿using Library.Persistance;
-
-namespace Library.Tests.Common;
+﻿namespace Library.Tests.Common;
 
 public abstract class BaseTestCommand
 {
-    protected readonly LibraryContextFactory _context;
+    protected readonly LibraryContextFactory Context;
 
     public BaseTestCommand()
     {
-        _context = new LibraryContextFactory();
+        Context = new LibraryContextFactory();
     }
     
 }

@@ -12,6 +12,7 @@ public class GetBooksListQueryHandler: IRequestHandler<GetBooksListQuery, BooksL
     
     public async Task<BooksListVm> Handle(GetBooksListQuery request, CancellationToken cancellationToken)
     {
-        return await _unitOfWork.Books.GetBookListAsync(cancellationToken);
+        return await _unitOfWork.Books.GetPaginatedBookListAsync(
+            request.PageNumber, request.PageSize, cancellationToken);
     }
 }

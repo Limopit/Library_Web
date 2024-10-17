@@ -45,12 +45,16 @@ public class AuthorRepository: BaseRepository<Author>, IAuthorRepository
         return _mapper.Map<AuthorDetailsVm>(authorInfo);
     }
 
-    public async Task<AuthorListVm> GetEntityListAsync(CancellationToken token)
+    public async Task<AuthorListVm> GetPaginatedEntityListAsync(
+        int pageNumber, int pageSize, CancellationToken token)
     {
         var authorList = await _libraryDbContext.authors
+            .OrderBy(a => a.author_lastname)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
             .ProjectTo<AuthorListDto>(_mapper.ConfigurationProvider)
             .ToListAsync(token);
 
-        return new AuthorListVm{Authors = authorList};
+        return new AuthorListVm { Authors = authorList };
     }
 }

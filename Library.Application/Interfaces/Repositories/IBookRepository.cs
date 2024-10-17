@@ -8,7 +8,7 @@ namespace Library.Application.Interfaces.Repositories;
 public interface IBookRepository: IBaseRepository<Book>
 {
     void AddBookToAuthor(Author author, Book book);
-    Task<BooksListVm> GetBookListAsync(CancellationToken token);
+    Task<BooksListVm> GetPaginatedBookListAsync(int pageNumber, int pageSize, CancellationToken token);
     Task<BookByIdDto> GetBookInfoByIdAsync(Guid id, CancellationToken token);
     Task<BookByISBNDto> GetBookByISBNAsync(String ISBN, CancellationToken token);
 

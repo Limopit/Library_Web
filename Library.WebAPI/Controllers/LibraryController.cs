@@ -25,9 +25,13 @@ public class LibraryController : BaseController
     public LibraryController(IMediator mediator) : base(mediator){}
     
     [HttpGet("author/")]
-    public async Task<ActionResult<AuthorListVm>> GetAllAuthors()
+    public async Task<ActionResult<AuthorListVm>> GetAllAuthors(int pageNumber = 1, int pageSize = 10)
     {
-        var authors = await _mediator.Send(new GetAuthorListQuery());
+        var authors = await _mediator.Send(new GetAuthorListQuery
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        });
         return Ok(authors);
     }
     
@@ -102,9 +106,13 @@ public class LibraryController : BaseController
     }
 
     [HttpGet("books/")]
-    public async Task<ActionResult<BooksListVm>> GetBooksList()
+    public async Task<ActionResult<BooksListVm>> GetBooksList(int pageNumber = 1, int pageSize = 10)
     {
-        var books = await _mediator.Send(new GetBooksListQuery());
+        var books = await _mediator.Send(new GetBooksListQuery
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        });
         return Ok(books);
     }
     

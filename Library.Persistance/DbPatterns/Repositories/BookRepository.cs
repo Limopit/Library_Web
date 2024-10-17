@@ -26,13 +26,17 @@ public class BookRepository: BaseRepository<Book>, IBookRepository
         author.books.Add(book);
     }
 
-    public async Task<BooksListVm> GetBookListAsync(CancellationToken token)
+    public async Task<BooksListVm> GetPaginatedBookListAsync(
+        int pageNumber, int pageSize, CancellationToken token)
     {
         var bookList = await _libraryDbContext.books
+            .OrderBy(b => b.book_name)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
             .ProjectTo<BookListDto>(_mapper.ConfigurationProvider)
             .ToListAsync(token);
-        
-        return new BooksListVm{Books = bookList};
+
+        return new BooksListVm { Books = bookList };
     }
 
     public async Task<BookByIdDto> GetBookInfoByIdAsync(Guid id, CancellationToken token)
