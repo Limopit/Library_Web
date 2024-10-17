@@ -14,4 +14,5 @@ This is a simple web library backend. During the development process were used t
 For unit testing were used: **xUnit** for test handling, **Moq** for mocks, **Fluent Assertions** for better assertions.
 ## Getting started
 In oreder to launch the solution correctly, you need just to launch Library.Identity and Library.WebAPI projects simultantously.  
-In order to start testing, you need to launch the needed test in Library.Tests project.
+In order to start testing, you need to launch the needed test in Library.Tests project.  
+Email and password for admin test user are: email@gmail.com Password1#
