@@ -7,7 +7,7 @@ namespace Library.Application.Interfaces.Repositories;
 
 public interface IAuthorRepository: IBaseRepository<Author>
 {
-    Task<AuthorBooksListVm> GetAuthorBookListAsync(Guid id, CancellationToken token);
-    Task<AuthorDetailsVm> GetAuthorInfoByIdAsync(Guid id, CancellationToken token);
-    Task<AuthorListVm> GetPaginatedEntityListAsync(int pageNumber, int pageSize, CancellationToken token);
+    Task<List<Book>> GetAuthorBookListAsync(Guid id, CancellationToken token);
+    Task<Author?> GetAuthorInfoByIdAsync(Guid id, CancellationToken token);
+    Task<List<Author>> GetPaginatedEntityListAsync(int pageNumber, int pageSize, CancellationToken token);
 }

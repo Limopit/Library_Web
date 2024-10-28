@@ -33,8 +33,8 @@ public class UnitOfWork: IUnitOfWork
         _signInManager = signInManager;
         _tokenService = tokenService;
         _roleManager = roleManager;
-        Authors = new AuthorRepository(_context, _mapper);
-        Books = new BookRepository(_context, _mapper);
+        Authors = new AuthorRepository(_context);
+        Books = new BookRepository(_context);
         Users = new UserRepository(_signInManager, _tokenService, _userManager, _roleManager);
         BorrowRecords = new BorrowRecordRepository(_context, _mapper);
         RefreshTokens = new RefreshTokenRepository(_context);

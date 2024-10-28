@@ -1,6 +1,8 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using Library.Application.Authors.Queries.GetAuthorById;
 using Library.Application.Authors.Queries.GetAuthorList;
+using Library.Application.Common.Mappings;
 using Library.Domain;
 using Library.Tests.Common;
 using Library.Tests.Common.Mocks;
@@ -15,7 +17,12 @@ public class GetAuthorListQueryTests: BaseTestCommand
 
     public GetAuthorListQueryTests()
     {
-        _handler = new GetAuthorListQueryHandler(Context.UnitOfWorkMock.Object);
+        var configuration = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new AssemblyMappingProfile(typeof(AssemblyMappingProfile).Assembly)); // укажите нужный профиль
+        });
+        var mapper = configuration.CreateMapper();
+        _handler = new GetAuthorListQueryHandler(Context.UnitOfWorkMock.Object, mapper);
         _mocks = new AuthorMocks(Context.UnitOfWorkMock);
     }
     

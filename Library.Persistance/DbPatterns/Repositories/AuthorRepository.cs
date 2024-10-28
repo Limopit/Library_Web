@@ -13,48 +13,30 @@ namespace Library.Persistance.DbPatterns.Repositories;
 
 public class AuthorRepository: BaseRepository<Author>, IAuthorRepository
 {
-    private readonly IMapper _mapper;
+    public AuthorRepository(LibraryDBContext libraryDbContext) : base(libraryDbContext) { }
 
-    public AuthorRepository(LibraryDBContext libraryDbContext, IMapper mapper) : base(libraryDbContext)
+    public async Task<List<Book>> GetAuthorBookListAsync(Guid id, CancellationToken token)
     {
-        _mapper = mapper;
-    }
-
-    public async Task<AuthorBooksListVm> GetAuthorBookListAsync(Guid id, CancellationToken token)
-    {
-        var books = await _libraryDbContext.books
+        return await _libraryDbContext.books
             .Where(b => b.author_id == id)
-            .ProjectTo<AuthorBooksListDto>(_mapper.ConfigurationProvider)
             .ToListAsync(token);
-        
-        return new AuthorBooksListVm { Books = books };
     }
 
-    public async Task<AuthorDetailsVm> GetAuthorInfoByIdAsync(Guid id, CancellationToken token)
+    public async Task<Author?> GetAuthorInfoByIdAsync(Guid id, CancellationToken token)
     { 
-        var authorInfo = await _libraryDbContext.authors
+        return await _libraryDbContext.authors
             .Include(auth => auth.books)
             .FirstOrDefaultAsync(author => author.author_id == id,
                 token);
-
-        if (authorInfo == null)
-        {
-            throw new NotFoundException(nameof(Author), id);
-        }
-        
-        return _mapper.Map<AuthorDetailsVm>(authorInfo);
     }
 
-    public async Task<AuthorListVm> GetPaginatedEntityListAsync(
+    public async Task<List<Author>> GetPaginatedEntityListAsync(
         int pageNumber, int pageSize, CancellationToken token)
     {
-        var authorList = await _libraryDbContext.authors
+        return await _libraryDbContext.authors
             .OrderBy(a => a.author_lastname)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ProjectTo<AuthorListDto>(_mapper.ConfigurationProvider)
             .ToListAsync(token);
-
-        return new AuthorListVm { Authors = authorList };
     }
 }
