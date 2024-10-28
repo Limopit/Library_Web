@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Library.Application.BorrowRecords.Queries.GetExpiringBorrowRecord;
-using Library.Application.Interfaces;
-using Library.Application.Interfaces.Repositories;
+﻿using Library.Application.Interfaces.Repositories;
 using Library.Domain;
 using Microsoft.EntityFrameworkCore;
 
