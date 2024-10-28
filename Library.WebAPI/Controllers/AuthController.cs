@@ -39,7 +39,7 @@ public class AuthController: BaseController
     [HttpPost("refresh")]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenCommand command)
     {
-        var (jwt, refresh) = await _mediator.Send(command); 
-        return Ok(new { jwt, refresh });
+        var jwt = await _mediator.Send(command); 
+        return Ok(jwt);
     }
 }

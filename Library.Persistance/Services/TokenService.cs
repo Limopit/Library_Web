@@ -31,6 +31,11 @@ public class TokenService: ITokenService
         return (accessToken, refreshToken);
     }
 
+    public async Task<string> GenerateNewToken(User user, UserManager<User> userManager)
+    {
+        return await GenerateAccessToken(user, userManager);
+    }
+
     private async Task<string> GenerateAccessToken(User user, UserManager<User> userManager)
     {
         var issuer = _configuration["Jwt:Issuer"];
