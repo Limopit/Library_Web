@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Library.Application.Users.Commands.RefreshToken;
 
-public class RefreshTokenCommandHandler: IRequestHandler<RefreshTokenCommand, (string, string)>
+public class RefreshTokenCommandHandler: IRequestHandler<RefreshTokenCommand, string>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -12,7 +12,7 @@ public class RefreshTokenCommandHandler: IRequestHandler<RefreshTokenCommand, (s
         _unitOfWork = unitOfWork;
     }
     
-    public async Task<(string, string)> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
         var userId = _unitOfWork.RefreshTokens.ValidateRefreshToken(request.refreshToken);
 
@@ -23,13 +23,13 @@ public class RefreshTokenCommandHandler: IRequestHandler<RefreshTokenCommand, (s
 
         var user = await _unitOfWork.Users.FindUserById(userId);
         
-        var (newJWT, newRefresh) =
-            await _unitOfWork.Users.GenerateTokenForUser(user, cancellationToken);
+        var newJWT =
+            await _unitOfWork.Users.GenerateNewToken(user);
         
         _unitOfWork.RefreshTokens.RevokeToken(request.refreshToken);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         
-        return (newJWT, newRefresh);
+        return newJWT;
     }
 }

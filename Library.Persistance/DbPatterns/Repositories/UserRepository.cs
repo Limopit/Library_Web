@@ -47,6 +47,11 @@ public class UserRepository: IUserRepository
         return await _tokenService.GenerateTokens(user, _userManager, token);
     }
 
+    public async Task<string> GenerateNewToken(User user)
+    {
+        return await _tokenService.GenerateNewToken(user, _userManager);
+    }
+
     public async Task<bool> UserRoleExistsAsync(string role)
     {
         return await _roleManager.RoleExistsAsync(role);
