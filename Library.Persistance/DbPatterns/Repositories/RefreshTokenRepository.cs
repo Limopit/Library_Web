@@ -1,6 +1,4 @@
-﻿using Library.Application.Common.Exceptions;
-using Library.Application.Interfaces;
-using Library.Application.Interfaces.Repositories;
+﻿using Library.Application.Interfaces.Repositories;
 using Library.Domain;
 
 namespace Library.Persistance.DbPatterns.Repositories;
@@ -19,31 +17,17 @@ public class RefreshTokenRepository: IRefreshTokenRepository
         await _libraryDbContext.RefreshTokens.AddAsync(token, cancellationToken);
     }
 
-    public string ValidateRefreshToken(string refreshToken)
+    public async Task<RefreshToken?> ValidateRefreshToken(string refreshToken)
     {
-        var token = _libraryDbContext.RefreshTokens
+        return _libraryDbContext.RefreshTokens
             .Where(r => r.Token == refreshToken)
             .AsEnumerable()
             .FirstOrDefault(r => r.IsActive);
-
-        if (token == null)
-        {
-            return null;
-        }
-
-        return token.UserId;
     }
 
-    public void RevokeToken(string refreshToken)
+    public async Task<RefreshToken?> RevokeToken(string refreshToken)
     {
-        var token = _libraryDbContext.RefreshTokens
+        return _libraryDbContext.RefreshTokens
             .SingleOrDefault(t => t.Token == refreshToken);
-
-        if (token == null)
-        {
-            throw new NotFoundException(nameof(RefreshToken), refreshToken);
-        }
-
-        token.Revoked = DateTime.UtcNow;
     }
 }

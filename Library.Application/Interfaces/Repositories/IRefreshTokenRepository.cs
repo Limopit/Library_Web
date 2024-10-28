@@ -5,6 +5,6 @@ namespace Library.Application.Interfaces.Repositories;
 public interface IRefreshTokenRepository
 {
     Task SaveRefreshToken(RefreshToken token, CancellationToken cancellationToken);
-    string ValidateRefreshToken(string token);
-    void RevokeToken(string refreshToken);
+    Task<RefreshToken?> ValidateRefreshToken(string token);
+    Task<RefreshToken?> RevokeToken(string refreshToken);
 }

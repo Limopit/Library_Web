@@ -1,12 +1,4 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Library.Application.Authors.Queries.GetAuthorById;
-using Library.Application.Books.Queries.GetBookById;
-using Library.Application.Books.Queries.GetBookByISBN;
-using Library.Application.Books.Queries.GetBooksList;
-using Library.Application.Common.Exceptions;
-using Library.Application.Interfaces;
-using Library.Application.Interfaces.Repositories;
+﻿using Library.Application.Interfaces.Repositories;
 using Library.Domain;
 using Microsoft.EntityFrameworkCore;
 

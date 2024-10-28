@@ -1,5 +1,4 @@
-﻿using Library.Application.Interfaces;
-using Library.Application.Interfaces.Repositories;
+﻿using Library.Application.Interfaces.Repositories;
 using Library.Domain;
 using Library.Persistance.Interfaces;
 using Microsoft.AspNetCore.Identity;
