@@ -20,6 +20,10 @@ public class UpdateBookCommandHandler: IRequestHandler<UpdateBookCommand>
         {
             throw new NotFoundException(nameof(Book), request.book_id);
         }
+        
+        var ISBNCheck = await _unitOfWork.Books.GetBookByISBNAsync(request.ISBN, cancellationToken);
+
+        if (ISBNCheck != null) throw new Exception("Such ISBN already exists");
 
         book.ISBN = request.ISBN;
         book.book_name = request.book_name;
