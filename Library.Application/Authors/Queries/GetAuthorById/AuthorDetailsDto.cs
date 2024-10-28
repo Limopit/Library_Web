@@ -4,7 +4,7 @@ using Library.Domain;
 
 namespace Library.Application.Authors.Queries.GetAuthorById;
 
-public class AuthorDetailsVm: IMapWith<Author>
+public class AuthorDetailsDto: IMapWith<Author>
 {
     public Guid author_id { get; set; }
     public string author_firstname { get; set; }
@@ -15,7 +15,7 @@ public class AuthorDetailsVm: IMapWith<Author>
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Author, AuthorDetailsVm>()
+        profile.CreateMap<Author, AuthorDetailsDto>()
             .ForMember(authorVM => authorVM.author_id,
                 opt
                     => opt.MapFrom(author => author.author_id))

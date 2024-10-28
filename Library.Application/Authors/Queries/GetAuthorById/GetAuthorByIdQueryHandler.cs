@@ -1,23 +1,23 @@
-﻿using AutoMapper;
-using Library.Application.Common.Exceptions;
+﻿using Library.Application.Common.Exceptions;
+using Library.Application.Common.Mappings;
 using Library.Application.Interfaces;
 using Library.Domain;
 using MediatR;
 
 namespace Library.Application.Authors.Queries.GetAuthorById;
 
-public class GetAuthorByIdQueryHandler: IRequestHandler<GetAuthorByIdQuery, AuthorDetailsVm>
+public class GetAuthorByIdQueryHandler: IRequestHandler<GetAuthorByIdQuery, AuthorDetailsDto>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
+    private readonly IMapperService _mapper;
 
-    public GetAuthorByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    public GetAuthorByIdQueryHandler(IUnitOfWork unitOfWork, IMapperService mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
 
-    public async Task<AuthorDetailsVm> Handle(GetAuthorByIdQuery request, CancellationToken cancellationToken)
+    public async Task<AuthorDetailsDto> Handle(GetAuthorByIdQuery request, CancellationToken cancellationToken)
     {
         var authorInfo = await _unitOfWork.Authors.GetAuthorInfoByIdAsync(request.author_id, cancellationToken);
         
@@ -26,6 +26,6 @@ public class GetAuthorByIdQueryHandler: IRequestHandler<GetAuthorByIdQuery, Auth
             throw new NotFoundException(nameof(Author), request.author_id);
         }
         
-        return _mapper.Map<AuthorDetailsVm>(authorInfo);
+        return await _mapper.Map<Author, AuthorDetailsDto>(authorInfo);
     }
 }

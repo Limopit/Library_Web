@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Library.Application.Authors.Queries.GetAuthorById;
 using Library.Application.Common.Exceptions;
-using Library.Application.Common.Mappings;
 using Library.Domain;
 using Library.Tests.Common;
 using Library.Tests.Common.Mocks;
@@ -17,13 +15,8 @@ public class GetAuthorByIdQueryHandlerTests: BaseTestCommand
 
     public GetAuthorByIdQueryHandlerTests()
     {
-        var configuration = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new AssemblyMappingProfile(typeof(AssemblyMappingProfile).Assembly)); // укажите нужный профиль
-        });
-        var mapper = configuration.CreateMapper();
-        _handler = new GetAuthorByIdQueryHandler(Context.UnitOfWorkMock.Object, mapper);
         _mocks = new AuthorMocks(Context.UnitOfWorkMock);
+        _handler = new GetAuthorByIdQueryHandler(Context.UnitOfWorkMock.Object, _mocks._mapperMock.Object);
     }
     
     [Fact]
@@ -38,6 +31,15 @@ public class GetAuthorByIdQueryHandlerTests: BaseTestCommand
             author_lastname = "Author",
             author_country = "Some Country",
             books = new List<Book>()
+        };
+
+        var expectedAuthorDto = new AuthorDetailsDto
+        {
+            author_id = expectedAuthor.author_id,
+            author_firstname = expectedAuthor.author_firstname,
+            author_lastname = expectedAuthor.author_lastname,
+            author_country = expectedAuthor.author_country,
+            books = new List<BookListDto>()
         };
 
         CancellationToken token = new CancellationToken();

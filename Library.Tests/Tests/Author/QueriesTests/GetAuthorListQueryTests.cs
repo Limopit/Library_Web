@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using FluentAssertions;
-using Library.Application.Authors.Queries.GetAuthorById;
+﻿using FluentAssertions;
 using Library.Application.Authors.Queries.GetAuthorList;
-using Library.Application.Common.Mappings;
-using Library.Domain;
 using Library.Tests.Common;
 using Library.Tests.Common.Mocks;
 using Xunit;
@@ -17,13 +13,8 @@ public class GetAuthorListQueryTests: BaseTestCommand
 
     public GetAuthorListQueryTests()
     {
-        var configuration = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new AssemblyMappingProfile(typeof(AssemblyMappingProfile).Assembly)); // укажите нужный профиль
-        });
-        var mapper = configuration.CreateMapper();
-        _handler = new GetAuthorListQueryHandler(Context.UnitOfWorkMock.Object, mapper);
         _mocks = new AuthorMocks(Context.UnitOfWorkMock);
+        _handler = new GetAuthorListQueryHandler(Context.UnitOfWorkMock.Object, _mocks._mapperMock.Object);
     }
     
     [Fact]
@@ -46,11 +37,27 @@ public class GetAuthorListQueryTests: BaseTestCommand
             author_lastname = "Author",
             author_country = "Some Country",
         };
+
+        var authorDtoA = new AuthorListDto()
+        {
+            AuthorFirstname = expectedAuthorA.author_firstname,
+            AuthorId = expectedAuthorA.author_id,
+            AuthorLastname = expectedAuthorA.author_lastname
+        };
+        
+        var authorDtoB = new AuthorListDto()
+        {
+            AuthorFirstname = expectedAuthorB.author_firstname,
+            AuthorId = expectedAuthorB.author_id,
+            AuthorLastname = expectedAuthorB.author_lastname
+        };
+        
         var authors = new List<Domain.Author> { expectedAuthorA, expectedAuthorB };
+        var authorDtos = new List<AuthorListDto> { authorDtoA, authorDtoB };
 
         CancellationToken token = new CancellationToken();
 
-        _mocks.SetupGetAuthorListAsync(authors, token);
+        _mocks.SetupGetAuthorListAsync(authors, authorDtos, token);
 
         // Act
         var getAuthorCommand = new GetAuthorListQuery{PageNumber = 1, PageSize = 10};
