@@ -10,12 +10,7 @@ namespace Library.Persistance.DbPatterns.Repositories;
 
 public class BorrowRecordRepository: BaseRepository<BorrowRecord>, IBorrowRecordRepository
 {
-    private readonly IMapper _mapper;
-
-    public BorrowRecordRepository(LibraryDBContext libraryDbContext, IMapper mapper) : base(libraryDbContext)
-    {
-        _mapper = mapper;
-    }
+    public BorrowRecordRepository(LibraryDBContext libraryDbContext) : base(libraryDbContext){ }
 
     public async Task<BorrowRecord?> GetBorrowRecordByBookIdAsync(Guid bookId, CancellationToken token)
     {

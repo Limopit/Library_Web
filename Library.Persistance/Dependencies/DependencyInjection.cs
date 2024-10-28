@@ -1,4 +1,5 @@
-﻿using Library.Application.Interfaces;
+﻿using Library.Application.Common.Mappings;
+using Library.Application.Interfaces;
 using Library.Application.Interfaces.Repositories;
 using Library.Domain;
 using Library.Persistance.DbPatterns;
@@ -43,7 +44,7 @@ public static class DependencyInjection
         services.AddScoped<IBorrowRecordRepository, BorrowRecordRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        
+        services.AddTransient<IMapperService, MapperService>();
         return services;
     }
 }

@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Library.Application.Authors.Queries.GetAuthorBooksList;
 using Library.Application.Common.Exceptions;
-using Library.Application.Common.Mappings;
 using Library.Domain;
 using Library.Tests.Common;
 using Library.Tests.Common.Mocks;
@@ -18,13 +16,8 @@ public class GetAuthorBookListQueryTests: BaseTestCommand
 
     public GetAuthorBookListQueryTests()
     {
-        var configuration = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new AssemblyMappingProfile(typeof(AssemblyMappingProfile).Assembly)); // укажите нужный профиль
-        });
-        var mapper = configuration.CreateMapper();
-        _handler = new GetAuthorBooksListQueryHandler(Context.UnitOfWorkMock.Object, mapper);
         _mocks = new AuthorMocks(Context.UnitOfWorkMock);
+        _handler = new GetAuthorBooksListQueryHandler(Context.UnitOfWorkMock.Object, _mocks._mapperMock.Object);
     }
     
     [Fact]
@@ -53,11 +46,22 @@ public class GetAuthorBookListQueryTests: BaseTestCommand
             borrowRecords = new List<BorrowRecord>(),
             imageUrls = ""
         });
+        
+        List<AuthorBooksListDto> bookListDto = new List<AuthorBooksListDto>()
+        {
+            new AuthorBooksListDto()
+            {
+                book_description = expectedAuthor.books.First().book_description,
+                book_genre = expectedAuthor.books.First().book_genre,
+                book_name = expectedAuthor.books.First().book_name,
+                ISBN = expectedAuthor.books.First().ISBN
+            }
+        }; 
 
         CancellationToken token = new CancellationToken();
 
         _mocks.SetupGetAuthorByIdAsync(authorId, expectedAuthor);
-        _mocks.SetupGetAuthorBookListAsync(authorId, expectedAuthor.books.ToList(), token);
+        _mocks.SetupGetAuthorBookListAsync(authorId, expectedAuthor.books.ToList(), bookListDto, token);
 
         // Act
         var getAuthorCommand = new GetAuthorBooksListQuery { author_id = authorId };
@@ -97,7 +101,7 @@ public class GetAuthorBookListQueryTests: BaseTestCommand
 
         CancellationToken token = new CancellationToken();
 
-        _mocks.SetupGetAuthorBookListAsync(authorId, expectedAuthor.books.ToList(), token);
+        _mocks.SetupGetAuthorBookListAsync(authorId, expectedAuthor.books.ToList(), new List<AuthorBooksListDto>(), token);
 
         // Act & assert
         var command = new GetAuthorBooksListQuery { author_id = authorId };

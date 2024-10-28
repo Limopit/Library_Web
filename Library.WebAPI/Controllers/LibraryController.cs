@@ -44,7 +44,7 @@ public class LibraryController : BaseController
     }
     
     [HttpGet("author/{id}")]
-    public async Task<ActionResult<AuthorDetailsVm>> GetAuthor(Guid id)
+    public async Task<ActionResult<AuthorDetailsDto>> GetAuthor(Guid id)
     {
         var author = await _mediator.Send(new GetAuthorByIdQuery() { author_id = id });
         return Ok(author);
