@@ -1,6 +1,8 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using Library.Application.Authors.Queries.GetAuthorBooksList;
 using Library.Application.Common.Exceptions;
+using Library.Application.Common.Mappings;
 using Library.Domain;
 using Library.Tests.Common;
 using Library.Tests.Common.Mocks;
@@ -12,10 +14,16 @@ public class GetAuthorBookListQueryTests: BaseTestCommand
 {
     private readonly GetAuthorBooksListQueryHandler _handler;
     private readonly AuthorMocks _mocks;
+    
 
     public GetAuthorBookListQueryTests()
     {
-        _handler = new GetAuthorBooksListQueryHandler(Context.UnitOfWorkMock.Object);
+        var configuration = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new AssemblyMappingProfile(typeof(AssemblyMappingProfile).Assembly)); // укажите нужный профиль
+        });
+        var mapper = configuration.CreateMapper();
+        _handler = new GetAuthorBooksListQueryHandler(Context.UnitOfWorkMock.Object, mapper);
         _mocks = new AuthorMocks(Context.UnitOfWorkMock);
     }
     

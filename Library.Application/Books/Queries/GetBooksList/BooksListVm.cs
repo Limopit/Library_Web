@@ -4,5 +4,5 @@ namespace Library.Application.Books.Queries.GetBooksList;
 
 public class BooksListVm
 {
-    public IList<BookListDto> Books { get; set; }
+    public IList<BooksListDto> Books { get; set; }
 }

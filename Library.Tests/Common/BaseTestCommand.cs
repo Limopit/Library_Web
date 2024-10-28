@@ -2,11 +2,5 @@
 
 public abstract class BaseTestCommand
 {
-    protected readonly LibraryContextFactory Context;
-
-    public BaseTestCommand()
-    {
-        Context = new LibraryContextFactory();
-    }
-    
+    protected readonly LibraryContextFactory Context = new();
 }

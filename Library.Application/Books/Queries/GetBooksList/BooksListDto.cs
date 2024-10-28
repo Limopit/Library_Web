@@ -6,6 +6,7 @@ namespace Library.Application.Books.Queries.GetBooksList;
 
 public class BooksListDto: IMapWith<Book>
 {
+    public Guid book_id { get; set; }
     public string ISBN { get; set; }
     public string book_name { get; set; }
     public string book_genre { get; set; }
@@ -15,6 +16,9 @@ public class BooksListDto: IMapWith<Book>
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Book, BooksListDto>()
+            .ForMember(bookVm => bookVm.book_id,
+                opt
+                    => opt.MapFrom(book => book.book_id))
             .ForMember(bookVm => bookVm.ISBN,
                 opt
                     => opt.MapFrom(book => book.ISBN))

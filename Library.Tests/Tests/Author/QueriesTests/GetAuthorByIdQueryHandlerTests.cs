@@ -1,5 +1,8 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using Library.Application.Authors.Queries.GetAuthorById;
+using Library.Application.Common.Exceptions;
+using Library.Application.Common.Mappings;
 using Library.Domain;
 using Library.Tests.Common;
 using Library.Tests.Common.Mocks;
@@ -14,7 +17,12 @@ public class GetAuthorByIdQueryHandlerTests: BaseTestCommand
 
     public GetAuthorByIdQueryHandlerTests()
     {
-        _handler = new GetAuthorByIdQueryHandler(Context.UnitOfWorkMock.Object);
+        var configuration = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new AssemblyMappingProfile(typeof(AssemblyMappingProfile).Assembly)); // укажите нужный профиль
+        });
+        var mapper = configuration.CreateMapper();
+        _handler = new GetAuthorByIdQueryHandler(Context.UnitOfWorkMock.Object, mapper);
         _mocks = new AuthorMocks(Context.UnitOfWorkMock);
     }
     
@@ -57,11 +65,11 @@ public class GetAuthorByIdQueryHandlerTests: BaseTestCommand
 
         _mocks.SetupGetAuthorInfoByIdAsync(authorId, null, token);
 
-        // Act
+        // Act & Assert
         var getAuthorCommand = new GetAuthorByIdQuery { author_id = authorId };
-        var result = await _handler.Handle(getAuthorCommand, token);
-        
-        // Assert
-        result.Should().BeNull();
+        await _handler
+            .Invoking(async h => await h.Handle(getAuthorCommand, CancellationToken.None))
+            .Should()
+            .ThrowAsync<NotFoundException>();
     }
 }

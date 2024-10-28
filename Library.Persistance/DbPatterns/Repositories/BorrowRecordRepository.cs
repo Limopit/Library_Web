@@ -23,19 +23,16 @@ public class BorrowRecordRepository: BaseRepository<BorrowRecord>, IBorrowRecord
             .FirstOrDefaultAsync(br => br.bookId == bookId, token);
     }
 
-    public async Task<ExpiringRecordVm> GetExpiringRecordsAsync(string userId, CancellationToken token)
+    public async Task<List<Book>> GetExpiringRecordsAsync(string userId, CancellationToken token)
     {
         var currentDate = DateTime.UtcNow;
 
-        var recordList = await _libraryDbContext.books
+        return await _libraryDbContext.books
             .Include(book => book.borrowRecords)
             .Where(book => book.borrowRecords.Any(record =>
                 record.userId == userId &&
                 record.book_issue_expiration_date > currentDate && 
-                record.book_issue_expiration_date <= currentDate.AddDays(30)))
-            .ProjectTo<ExpiringBookDto>(_mapper.ConfigurationProvider)
+                record.book_issue_expiration_date <= currentDate.AddDays(1)))
             .ToListAsync(token);
-
-        return new ExpiringRecordVm { records = recordList };
     }
 }
