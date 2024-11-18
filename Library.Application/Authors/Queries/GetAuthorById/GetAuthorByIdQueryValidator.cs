@@ -6,7 +6,7 @@ public class GetAuthorByIdQueryValidator: AbstractValidator<GetAuthorByIdQuery>
 {
     public GetAuthorByIdQueryValidator()
     {
-        RuleFor(command => command.author_id).NotEmpty()
+        RuleFor(command => command.AuthorId).NotEmpty()
             .WithMessage("Id is required");
     }
 }

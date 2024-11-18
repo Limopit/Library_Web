@@ -1,7 +1,7 @@
 ﻿using Library.Domain;
 using Microsoft.AspNetCore.Identity;
 
-namespace Library.Persistance.Interfaces;
+namespace Library.Application.Interfaces.Services;
 
 public interface ITokenService
 {

@@ -19,12 +19,12 @@ public class GetAuthorBooksListQueryHandler: IRequestHandler<GetAuthorBooksListQ
 
     public async Task<AuthorBooksListVm> Handle(GetAuthorBooksListQuery request, CancellationToken cancellationToken)
     {
-        if (await _unitOfWork.Authors.GetEntityByIdAsync(request.author_id, cancellationToken) == null)
+        if (await _unitOfWork.Authors.GetEntityByIdAsync(request.AuthorId, cancellationToken) == null)
         {
-            throw new NotFoundException(nameof(Author), request.author_id);
+            throw new NotFoundException(nameof(Author), request.AuthorId);
         }
 
-        var books = await _unitOfWork.Authors.GetAuthorBookListAsync(request.author_id, cancellationToken);
+        var books = await _unitOfWork.Authors.GetAuthorBookListAsync(request.AuthorId, cancellationToken);
 
         var authorBooks = await _mapper.Map<List<Book>, IList<AuthorBooksListDto>>(books);
         

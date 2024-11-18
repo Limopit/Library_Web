@@ -15,41 +15,52 @@ public class UpdateAuthorCommandHandlerTests: BaseTestCommand
 
     public UpdateAuthorCommandHandlerTests()
     {
-        _handler = new UpdateAuthorCommandHandler(Context.UnitOfWorkMock.Object);
         _mocks = new AuthorMocks(Context.UnitOfWorkMock);
+        _handler = new UpdateAuthorCommandHandler(Context.UnitOfWorkMock.Object, _mocks._mapperMock.Object);
     }
 
     [Fact]
     public async Task UpdateAuthorTest_Success()
     {
-        //Arrange
+        // Arrange
         var authorId = Guid.NewGuid();
-        var expectedAuthor = new Domain.Author
+        var existingAuthor = new Domain.Author
         {
-            author_id = authorId,
-            author_firstname = "Some",
-            author_lastname = "Author",
-            author_country = "Some Country",
-            books = new List<Book>()
+            AuthorId = authorId,
+            AuthorFirstname = "Some",
+            AuthorLastname = "Author",
+            AuthorCountry = "Some Country",
+            AuthorBirthday = new DateTime(1980, 1, 1),
+            Books = new List<Book>()
         };
 
         CancellationToken token = new CancellationToken();
 
-        _mocks.SetupGetAuthorByIdAsync(authorId, expectedAuthor);
-        
-        //Act
+        // Настройка мока для получения автора
+        _mocks.SetupGetAuthorByIdAsync(authorId, existingAuthor);
+
         var command = new UpdateAuthorCommand
         {
-            author_id = authorId,
-            author_firstname = "Not",
-            author_lastname = "Author"
+            AuthorId = authorId,
+            AuthorFirstname = "UpdatedFirstName",
+            AuthorLastname = "UpdatedLastName",
+            AuthorCountry = "UpdatedCountry",
+            AuthorBirthday = new DateTime(1990, 1, 1)
         };
 
+        // Настройка мока маппера
+        _mocks.SetupMapperForUpdate(command, existingAuthor);
+
+        // Act
         await _handler.Handle(command, token);
 
-        //Assert
-        expectedAuthor.author_firstname.Should().Be("Not");
+        // Assert
+        existingAuthor.AuthorFirstname.Should().Be("UpdatedFirstName");
+        existingAuthor.AuthorLastname.Should().Be("UpdatedLastName");
+        existingAuthor.AuthorCountry.Should().Be("UpdatedCountry");
+        existingAuthor.AuthorBirthday.Should().Be(new DateTime(1990, 1, 1));
     }
+
     
     [Fact]
     public async Task UpdateAuthorTest_AuthorNotFound()
@@ -58,11 +69,11 @@ public class UpdateAuthorCommandHandlerTests: BaseTestCommand
         var authorId = Guid.NewGuid();
         var expectedAuthor = new Domain.Author
         {
-            author_id = authorId,
-            author_firstname = "Some",
-            author_lastname = "Author",
-            author_country = "Some Country",
-            books = new List<Book>()
+            AuthorId = authorId,
+            AuthorFirstname = "Some",
+            AuthorLastname = "Author",
+            AuthorCountry = "Some Country",
+            Books = new List<Book>()
         };
 
         CancellationToken token = new CancellationToken();
@@ -72,8 +83,8 @@ public class UpdateAuthorCommandHandlerTests: BaseTestCommand
         //Act & Assert
         var command = new UpdateAuthorCommand
         {
-            author_firstname = "Not",
-            author_lastname = "Author"
+            AuthorFirstname = "Not",
+            AuthorLastname = "Author"
         };
 
         await _handler

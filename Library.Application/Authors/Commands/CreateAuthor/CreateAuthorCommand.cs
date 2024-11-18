@@ -5,9 +5,9 @@ namespace Library.Application.Authors.Commands.CreateAuthor;
 
 public class CreateAuthorCommand : IRequest<Guid>
 {
-    public string author_firstname { get; set; }
-    public string author_lastname { get; set; }
-    public DateTime? author_birthday { get; set; }
-    public string? author_country { get; set; }
-    public ICollection<Book> books { get; set; }
+    public string AuthorFirstname { get; set; }
+    public string AuthorLastname { get; set; }
+    public DateTime? AuthorBirthday { get; set; }
+    public string? AuthorCountry { get; set; }
+    public ICollection<Book> Books { get; set; }
 }

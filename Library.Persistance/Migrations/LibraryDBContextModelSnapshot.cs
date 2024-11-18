@@ -19,44 +19,64 @@ namespace Library.Persistance.Migrations
 
             modelBuilder.Entity("Library.Domain.Author", b =>
                 {
-                    b.Property<Guid>("author_id")
+                    b.Property<Guid>("AuthorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasColumnName("author_id");
 
-                    b.Property<DateTime?>("author_birthday")
+                    b.Property<DateTime?>("AuthorBirthday")
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnName("author_birthday");
 
-                    b.Property<string>("author_country")
+                    b.Property<string>("AuthorCountry")
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnName("author_country");
 
-                    b.Property<string>("author_firstname")
+                    b.Property<string>("AuthorFirstname")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnName("author_firstname");
 
-                    b.Property<string>("author_lastname")
+                    b.Property<string>("AuthorLastname")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnName("author_lastname");
 
-                    b.HasKey("author_id");
+                    b.HasKey("AuthorId");
 
                     b.ToTable("authors");
                 });
 
             modelBuilder.Entity("Library.Domain.Book", b =>
                 {
-                    b.Property<Guid>("book_id")
+                    b.Property<Guid>("BookId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasColumnName("book_id");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BookDescription")
+                        .HasMaxLength(128)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("book_descr");
+
+                    b.Property<string>("BookGenre")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("book_genre");
+
+                    b.Property<string>("BookName")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("book_name");
 
                     b.Property<string>("ISBN")
                         .IsRequired()
@@ -64,65 +84,45 @@ namespace Library.Persistance.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("book_ISBN");
 
-                    b.Property<Guid>("author_id")
+                    b.Property<string>("ImageUrls")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("book_description")
-                        .HasMaxLength(128)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("book_descr");
+                    b.HasKey("BookId");
 
-                    b.Property<string>("book_genre")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("book_genre");
-
-                    b.Property<string>("book_name")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("book_name");
-
-                    b.Property<string>("imageUrls")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("book_id");
-
-                    b.HasIndex("author_id");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("books");
                 });
 
             modelBuilder.Entity("Library.Domain.BorrowRecord", b =>
                 {
-                    b.Property<Guid>("recordId")
+                    b.Property<Guid>("RecordId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasColumnName("record_id");
 
-                    b.Property<Guid>("bookId")
+                    b.Property<Guid>("BookId")
                         .HasColumnType("TEXT")
                         .HasColumnName("book_id");
 
-                    b.Property<DateTime>("book_issue_date")
+                    b.Property<DateTime>("BookIssueDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("book_issue_date");
 
-                    b.Property<DateTime>("book_issue_expiration_date")
+                    b.Property<DateTime>("BookIssueExpirationDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("book_issue_expiration_date");
 
-                    b.Property<string>("userId")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("user_id");
 
-                    b.HasKey("recordId");
+                    b.HasKey("RecordId");
 
-                    b.HasIndex("bookId");
+                    b.HasIndex("BookId");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("BorrowRecords");
                 });
@@ -359,32 +359,32 @@ namespace Library.Persistance.Migrations
 
             modelBuilder.Entity("Library.Domain.Book", b =>
                 {
-                    b.HasOne("Library.Domain.Author", "author")
-                        .WithMany("books")
-                        .HasForeignKey("author_id")
+                    b.HasOne("Library.Domain.Author", "Author")
+                        .WithMany("Books")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("author");
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Library.Domain.BorrowRecord", b =>
                 {
-                    b.HasOne("Library.Domain.Book", "book")
-                        .WithMany("borrowRecords")
-                        .HasForeignKey("bookId")
+                    b.HasOne("Library.Domain.Book", "Book")
+                        .WithMany("BorrowRecords")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Library.Domain.User", "user")
-                        .WithMany("borrowRecords")
-                        .HasForeignKey("userId")
+                    b.HasOne("Library.Domain.User", "User")
+                        .WithMany("BorrowRecords")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("book");
+                    b.Navigation("Book");
 
-                    b.Navigation("user");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Library.Domain.RefreshToken", b =>
@@ -451,19 +451,19 @@ namespace Library.Persistance.Migrations
 
             modelBuilder.Entity("Library.Domain.Author", b =>
                 {
-                    b.Navigation("books");
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("Library.Domain.Book", b =>
                 {
-                    b.Navigation("borrowRecords");
+                    b.Navigation("BorrowRecords");
                 });
 
             modelBuilder.Entity("Library.Domain.User", b =>
                 {
-                    b.Navigation("RefreshTokens");
+                    b.Navigation("BorrowRecords");
 
-                    b.Navigation("borrowRecords");
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

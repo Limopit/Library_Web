@@ -23,6 +23,11 @@ public class BaseRepository<T>: IBaseRepository<T> where T: class
     {
         await _dbSet.AddAsync(entity, token);
     }
+    
+    public async Task UpdateAsync(T entity)
+    {
+        _dbSet.Update(entity);
+    }
 
     public async Task RemoveEntity(T entity)
     {

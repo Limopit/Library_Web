@@ -10,14 +10,14 @@ public class BookRepository: BaseRepository<Book>, IBookRepository
 
     public void AddBookToAuthor(Author author, Book book)
     {
-        author.books.Add(book);
+        author.Books.Add(book);
     }
 
     public async Task<List<Book>> GetPaginatedBookListAsync(
         int pageNumber, int pageSize, CancellationToken token)
     {
         return await _libraryDbContext.books
-            .OrderBy(b => b.book_name)
+            .OrderBy(b => b.BookName)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync(token);
@@ -26,8 +26,8 @@ public class BookRepository: BaseRepository<Book>, IBookRepository
     public async Task<Book?> GetBookInfoByIdAsync(Guid id, CancellationToken token)
     {
         return await _libraryDbContext.books
-            .Include(b => b.author)
-            .FirstOrDefaultAsync(b => b.book_id == id, token);
+            .Include(b => b.Author)
+            .FirstOrDefaultAsync(b => b.BookId == id, token);
     }
 
     public async Task<Book?> GetBookByIdAsync(Guid id, CancellationToken token)
@@ -38,7 +38,7 @@ public class BookRepository: BaseRepository<Book>, IBookRepository
     public async Task<Book?> GetBookByISBNAsync(String ISBN, CancellationToken token)
     {
         return await _libraryDbContext.books
-            .Include(b => b.author)
+            .Include(b => b.Author)
             .FirstOrDefaultAsync(b => b.ISBN == ISBN, token);
     }
 }

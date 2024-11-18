@@ -19,11 +19,11 @@ public class GetAuthorByIdQueryHandler: IRequestHandler<GetAuthorByIdQuery, Auth
 
     public async Task<AuthorDetailsDto> Handle(GetAuthorByIdQuery request, CancellationToken cancellationToken)
     {
-        var authorInfo = await _unitOfWork.Authors.GetAuthorInfoByIdAsync(request.author_id, cancellationToken);
+        var authorInfo = await _unitOfWork.Authors.GetAuthorInfoByIdAsync(request.AuthorId, cancellationToken);
         
         if (authorInfo == null)
         {
-            throw new NotFoundException(nameof(Author), request.author_id);
+            throw new NotFoundException(nameof(Author), request.AuthorId);
         }
         
         return await _mapper.Map<Author, AuthorDetailsDto>(authorInfo);

@@ -1,10 +1,10 @@
 ﻿using Library.Application.Common.Mappings;
 using Library.Application.Interfaces;
 using Library.Application.Interfaces.Repositories;
+using Library.Application.Interfaces.Services;
 using Library.Domain;
 using Library.Persistance.DbPatterns;
 using Library.Persistance.DbPatterns.Repositories;
-using Library.Persistance.Interfaces;
 using Library.Persistance.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

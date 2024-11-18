@@ -39,14 +39,14 @@ public class LibraryController : BaseController
     [HttpGet("author/books/{id}")]
     public async Task<ActionResult<AuthorListVm>> GetAllAuthorBooks(Guid id)
     {
-        var books = await _mediator.Send(new GetAuthorBooksListQuery(){author_id = id});
+        var books = await _mediator.Send(new GetAuthorBooksListQuery(){AuthorId = id});
         return Ok(books);
     }
     
     [HttpGet("author/{id}")]
     public async Task<ActionResult<AuthorDetailsDto>> GetAuthor(Guid id)
     {
-        var author = await _mediator.Send(new GetAuthorByIdQuery() { author_id = id });
+        var author = await _mediator.Send(new GetAuthorByIdQuery() { AuthorId = id });
         return Ok(author);
     }
 
@@ -72,7 +72,7 @@ public class LibraryController : BaseController
     {
         var command = new DeleteAuthorCommand()
         {
-            author_id = id
+            AuthorId = id
         };
         await _mediator.Send(command);
         return NoContent();
@@ -92,7 +92,7 @@ public class LibraryController : BaseController
     {
         var command = new DeleteBookCommand()
         {
-            book_id = id
+            BookId = id
         };
         await _mediator.Send(command);
         return NoContent();
@@ -120,7 +120,7 @@ public class LibraryController : BaseController
     [HttpGet("books/id/{id}")]
     public async Task<ActionResult<BooksListVm>> GetBookById(Guid id)
     {
-        var book = await _mediator.Send(new GetBookByIdQuery() {book_id = id});
+        var book = await _mediator.Send(new GetBookByIdQuery() {BookId = id});
         return Ok(book);
     }
     

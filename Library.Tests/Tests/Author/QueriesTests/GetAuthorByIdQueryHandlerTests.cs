@@ -26,20 +26,20 @@ public class GetAuthorByIdQueryHandlerTests: BaseTestCommand
         var authorId = Guid.NewGuid();
         var expectedAuthor = new Domain.Author
         {
-            author_id = authorId,
-            author_firstname = "Some",
-            author_lastname = "Author",
-            author_country = "Some Country",
-            books = new List<Book>()
+            AuthorId = authorId,
+            AuthorFirstname = "Some",
+            AuthorLastname = "Author",
+            AuthorCountry = "Some Country",
+            Books = new List<Book>()
         };
 
         var expectedAuthorDto = new AuthorDetailsDto
         {
-            author_id = expectedAuthor.author_id,
-            author_firstname = expectedAuthor.author_firstname,
-            author_lastname = expectedAuthor.author_lastname,
-            author_country = expectedAuthor.author_country,
-            books = new List<BookListDto>()
+            AuthorId = expectedAuthor.AuthorId,
+            AuthorFirstname = expectedAuthor.AuthorFirstname,
+            AuthorLastname = expectedAuthor.AuthorLastname,
+            AuthorCountry = expectedAuthor.AuthorCountry,
+            Books = new List<BookListDto>()
         };
 
         CancellationToken token = new CancellationToken();
@@ -47,14 +47,14 @@ public class GetAuthorByIdQueryHandlerTests: BaseTestCommand
         _mocks.SetupGetAuthorInfoByIdAsync(authorId, expectedAuthor, token);
 
         // Act
-        var getAuthorCommand = new GetAuthorByIdQuery { author_id = authorId };
+        var getAuthorCommand = new GetAuthorByIdQuery { AuthorId = authorId };
         var result = await _handler.Handle(getAuthorCommand, token);
         
         // Assert
         result.Should().NotBeNull();
-        result.author_id.Should().Be(expectedAuthor.author_id);
-        result.author_firstname.Should().Be(expectedAuthor.author_firstname);
-        result.author_lastname.Should().Be(expectedAuthor.author_lastname);
+        result.AuthorId.Should().Be(expectedAuthor.AuthorId);
+        result.AuthorFirstname.Should().Be(expectedAuthor.AuthorFirstname);
+        result.AuthorLastname.Should().Be(expectedAuthor.AuthorLastname);
     }
     
     [Fact]
@@ -68,7 +68,7 @@ public class GetAuthorByIdQueryHandlerTests: BaseTestCommand
         _mocks.SetupGetAuthorInfoByIdAsync(authorId, null, token);
 
         // Act & Assert
-        var getAuthorCommand = new GetAuthorByIdQuery { author_id = authorId };
+        var getAuthorCommand = new GetAuthorByIdQuery { AuthorId = authorId };
         await _handler
             .Invoking(async h => await h.Handle(getAuthorCommand, CancellationToken.None))
             .Should()

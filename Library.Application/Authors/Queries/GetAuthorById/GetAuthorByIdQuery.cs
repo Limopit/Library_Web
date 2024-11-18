@@ -4,5 +4,5 @@ namespace Library.Application.Authors.Queries.GetAuthorById;
 
 public class GetAuthorByIdQuery: IRequest<AuthorDetailsDto>
 {
-    public Guid author_id { get; set; }
+    public Guid AuthorId { get; set; }
 }

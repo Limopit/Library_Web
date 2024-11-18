@@ -14,11 +14,11 @@ public class DeleteAuthorCommandHandler: IRequestHandler<DeleteAuthorCommand>
     
     public async Task Handle(DeleteAuthorCommand request, CancellationToken cancellationToken)
     {
-        var author = await _unitOfWork.Authors.GetEntityByIdAsync(request.author_id, cancellationToken);
+        var author = await _unitOfWork.Authors.GetEntityByIdAsync(request.AuthorId, cancellationToken);
 
-        if (author == null || author.author_id != request.author_id)
+        if (author == null || author.AuthorId != request.AuthorId)
         {
-            throw new NotFoundException(nameof(Author), request.author_id);
+            throw new NotFoundException(nameof(Author), request.AuthorId);
         }
 
         await _unitOfWork.Authors.RemoveEntity(author);

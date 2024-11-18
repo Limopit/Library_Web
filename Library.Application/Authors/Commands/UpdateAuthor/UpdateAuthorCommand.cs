@@ -1,14 +1,12 @@
-﻿using Library.Domain;
-using MediatR;
+﻿using MediatR;
 
 namespace Library.Application.Authors.Commands.UpdateAuthor;
 
 public class UpdateAuthorCommand: IRequest
 {
-    public Guid author_id { get; set; }
-    public string author_firstname { get; set; }
-    public string author_lastname { get; set; }
-    public DateTime? author_birthday { get; set; }
-    public string? author_country { get; set; }
-    public ICollection<Book> books { get; set; }
+    public Guid AuthorId { get; set; }
+    public string AuthorFirstname { get; set; }
+    public string AuthorLastname { get; set; }
+    public DateTime? AuthorBirthday { get; set; }
+    public string? AuthorCountry { get; set; }
 }

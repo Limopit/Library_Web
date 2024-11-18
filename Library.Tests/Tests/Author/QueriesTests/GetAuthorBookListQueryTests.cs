@@ -28,48 +28,48 @@ public class GetAuthorBookListQueryTests: BaseTestCommand
         var bookID = Guid.NewGuid();
         var expectedAuthor = new Domain.Author
         {
-            author_id = authorId,
-            author_firstname = "Some",
-            author_lastname = "Author",
-            author_country = "Some Country",
-            books = new List<Book>()
+            AuthorId = authorId,
+            AuthorFirstname = "Some",
+            AuthorLastname = "Author",
+            AuthorCountry = "Some Country",
+            Books = new List<Book>()
         };
-        expectedAuthor.books.Add(new Book
+        expectedAuthor.Books.Add(new Book
         {
-            author = expectedAuthor,
-            author_id = expectedAuthor.author_id,
-            book_description = "qqq",
-            book_genre = "ggg",
-            book_name = "name",
-            book_id = bookID,
+            Author = expectedAuthor,
+            AuthorId = expectedAuthor.AuthorId,
+            BookDescription = "qqq",
+            BookGenre = "ggg",
+            BookName = "name",
+            BookId = bookID,
             ISBN = "123",
-            borrowRecords = new List<BorrowRecord>(),
-            imageUrls = ""
+            BorrowRecords = new List<BorrowRecord>(),
+            ImageUrls = ""
         });
         
         List<AuthorBooksListDto> bookListDto = new List<AuthorBooksListDto>()
         {
             new AuthorBooksListDto()
             {
-                book_description = expectedAuthor.books.First().book_description,
-                book_genre = expectedAuthor.books.First().book_genre,
-                book_name = expectedAuthor.books.First().book_name,
-                ISBN = expectedAuthor.books.First().ISBN
+                BookDescription = expectedAuthor.Books.First().BookDescription,
+                BookGenre = expectedAuthor.Books.First().BookGenre,
+                BookName = expectedAuthor.Books.First().BookName,
+                ISBN = expectedAuthor.Books.First().ISBN
             }
         }; 
 
         CancellationToken token = new CancellationToken();
 
         _mocks.SetupGetAuthorByIdAsync(authorId, expectedAuthor);
-        _mocks.SetupGetAuthorBookListAsync(authorId, expectedAuthor.books.ToList(), bookListDto, token);
+        _mocks.SetupGetAuthorBookListAsync(authorId, expectedAuthor.Books.ToList(), bookListDto, token);
 
         // Act
-        var getAuthorCommand = new GetAuthorBooksListQuery { author_id = authorId };
+        var getAuthorCommand = new GetAuthorBooksListQuery { AuthorId = authorId };
         var result = await _handler.Handle(getAuthorCommand, token);
         
         // Assert
         result.Should().NotBeNull();
-        result.Books.First().book_name.Should().Be("name");
+        result.Books.First().BookName.Should().Be("name");
     }
     
     [Fact]
@@ -80,31 +80,31 @@ public class GetAuthorBookListQueryTests: BaseTestCommand
         var bookID = Guid.NewGuid();
         var expectedAuthor = new Domain.Author
         {
-            author_id = authorId,
-            author_firstname = "Some",
-            author_lastname = "Author",
-            author_country = "Some Country",
-            books = new List<Book>()
+            AuthorId = authorId,
+            AuthorFirstname = "Some",
+            AuthorLastname = "Author",
+            AuthorCountry = "Some Country",
+            Books = new List<Book>()
         };
-        expectedAuthor.books.Add(new Book
+        expectedAuthor.Books.Add(new Book
         {
-            author = expectedAuthor,
-            author_id = expectedAuthor.author_id,
-            book_description = "qqq",
-            book_genre = "ggg",
-            book_name = "name",
-            book_id = bookID,
+            Author = expectedAuthor,
+            AuthorId = expectedAuthor.AuthorId,
+            BookDescription = "qqq",
+            BookGenre = "ggg",
+            BookName = "name",
+            BookId = bookID,
             ISBN = "123",
-            borrowRecords = new List<BorrowRecord>(),
-            imageUrls = ""
+            BorrowRecords = new List<BorrowRecord>(),
+            ImageUrls = ""
         });
 
         CancellationToken token = new CancellationToken();
 
-        _mocks.SetupGetAuthorBookListAsync(authorId, expectedAuthor.books.ToList(), new List<AuthorBooksListDto>(), token);
+        _mocks.SetupGetAuthorBookListAsync(authorId, expectedAuthor.Books.ToList(), new List<AuthorBooksListDto>(), token);
 
         // Act & assert
-        var command = new GetAuthorBooksListQuery { author_id = authorId };
+        var command = new GetAuthorBooksListQuery { AuthorId = authorId };
         await _handler
             .Invoking(async h => await h.Handle(command, CancellationToken.None))
             .Should()

@@ -19,11 +19,11 @@ public class GetBookByIdQueryHandler: IRequestHandler<GetBookByIdQuery, BookById
 
     public async Task<BookByIdDto> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
     {
-        var book = await _unitOfWork.Books.GetBookInfoByIdAsync(request.book_id, cancellationToken);
+        var book = await _unitOfWork.Books.GetBookInfoByIdAsync(request.BookId, cancellationToken);
         
-        if (book == null || book.book_id != request.book_id)
+        if (book == null || book.BookId != request.BookId)
         {
-            throw new NotFoundException(nameof(Book), request.book_id);
+            throw new NotFoundException(nameof(Book), request.BookId);
         }
         
         return _mapper.Map<BookByIdDto>(book);
