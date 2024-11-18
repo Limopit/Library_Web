@@ -8,35 +8,35 @@ public class BorrowRecordConfiguration: IEntityTypeConfiguration<BorrowRecord>
 {
     public void Configure(EntityTypeBuilder<BorrowRecord> builder)
     {
-        builder.HasKey(record => record.recordId);
-        builder.Property(record => record.recordId)
+        builder.HasKey(record => record.RecordId);
+        builder.Property(record => record.RecordId)
             .HasColumnName("record_id")
             .ValueGeneratedOnAdd();
         
-        builder.Property(record => record.bookId)
+        builder.Property(record => record.BookId)
             .HasColumnName("book_id")
             .IsRequired();
 
-        builder.Property(record => record.userId)
+        builder.Property(record => record.UserId)
             .HasColumnName("user_id")
             .IsRequired();
 
-        builder.Property(record => record.book_issue_date)
+        builder.Property(record => record.BookIssueDate)
             .HasColumnName("book_issue_date")
             .HasColumnType("TEXT");
 
-        builder.Property(record => record.book_issue_expiration_date)
+        builder.Property(record => record.BookIssueExpirationDate)
             .HasColumnName("book_issue_expiration_date")
             .HasColumnType("TEXT");
 
-        builder.HasOne(record => record.book)
-            .WithMany(book => book.borrowRecords)
-            .HasForeignKey(record => record.bookId)
+        builder.HasOne(record => record.Book)
+            .WithMany(book => book.BorrowRecords)
+            .HasForeignKey(record => record.BookId)
             .OnDelete(DeleteBehavior.Restrict);
         
-        builder.HasOne(record => record.user)
-            .WithMany(user => user.borrowRecords)
-            .HasForeignKey(record => record.userId)
+        builder.HasOne(record => record.User)
+            .WithMany(user => user.BorrowRecords)
+            .HasForeignKey(record => record.UserId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -1,4 +1,6 @@
-﻿using Library.Application.Authors.Queries.GetAuthorBooksList;
+﻿using Library.Application.Authors.Commands.CreateAuthor;
+using Library.Application.Authors.Commands.UpdateAuthor;
+using Library.Application.Authors.Queries.GetAuthorBooksList;
 using Library.Application.Authors.Queries.GetAuthorById;
 using Library.Application.Authors.Queries.GetAuthorList;
 using Library.Application.Common.Mappings;
@@ -24,11 +26,22 @@ public class AuthorMocks
     }
     
     
-    public void SetupAddAuthorAsync(Author author, CancellationToken cancellationToken = default)
+    public void SetupAddAuthorAsync(CreateAuthorCommand command, Author author, CancellationToken cancellationToken = default)
     {
-        AuthorRepositoryMock.Setup(repo 
-                => repo.AddEntityAsync(author, cancellationToken))
+        AuthorRepositoryMock
+            .Setup(repo => repo.AddEntityAsync(author, cancellationToken))
             .Returns(Task.CompletedTask);
+
+        _mapperMock
+            .Setup(map => map.Map<CreateAuthorCommand, Author>(It.IsAny<CreateAuthorCommand>()))
+            .ReturnsAsync(new Author
+            {
+                AuthorId = Guid.NewGuid(), // Убедитесь, что AuthorId не равен Guid.Empty
+                AuthorFirstname = command.AuthorFirstname,
+                AuthorLastname = command.AuthorLastname,
+                AuthorBirthday = command.AuthorBirthday,
+                AuthorCountry = command.AuthorCountry,
+            });
     }
 
     public void SetupGetAuthorInfoByIdAsync(Guid authorId, Author author, CancellationToken cancellationToken = default)
@@ -37,27 +50,27 @@ public class AuthorMocks
                 => repo.GetAuthorInfoByIdAsync(authorId, cancellationToken))!
             .ReturnsAsync(author != null ? new Author()
             {
-                author_id = author.author_id,
-                author_firstname = author.author_firstname,
-                author_lastname = author.author_lastname,
-                author_birthday = author.author_birthday,
-                author_country = author.author_country,
-                books = author.books.Select(b => new Book
+                AuthorId = author.AuthorId,
+                AuthorFirstname = author.AuthorFirstname,
+                AuthorLastname = author.AuthorLastname,
+                AuthorBirthday = author.AuthorBirthday,
+                AuthorCountry = author.AuthorCountry,
+                Books = author.Books.Select(b => new Book
                 {
-                    book_id = b.book_id,
-                    book_name = b.book_name,
-                    book_genre = b.book_genre
+                    BookId = b.BookId,
+                    BookName = b.BookName,
+                    BookGenre = b.BookGenre
                 }).ToList()
             }: null);
 
         _mapperMock.Setup(map => map.Map<Author, AuthorDetailsDto>(It.IsAny<Author>()))
             .Returns((Author src) => Task.FromResult(new AuthorDetailsDto
             {
-                author_id = src.author_id,
-                author_firstname = src.author_firstname,
-                author_lastname = src.author_lastname,
-                author_birthday = src.author_birthday,
-                author_country = src.author_country
+                AuthorId = src.AuthorId,
+                AuthorFirstname = src.AuthorFirstname,
+                AuthorLastname = src.AuthorLastname,
+                AuthorBirthday = src.AuthorBirthday,
+                AuthorCountry = src.AuthorCountry
             }));
     }
 
@@ -89,4 +102,19 @@ public class AuthorMocks
                 => repo.RemoveEntity(author))
             .Returns(Task.CompletedTask);
     }
+    
+    public void SetupMapperForUpdate(UpdateAuthorCommand command, Author author)
+    {
+        _mapperMock
+            .Setup(mapper => mapper.Update(command, It.IsAny<Author>()))
+            .Callback<UpdateAuthorCommand, Author>((cmd, auth) =>
+            {
+                auth.AuthorFirstname = cmd.AuthorFirstname;
+                auth.AuthorLastname = cmd.AuthorLastname;
+                auth.AuthorCountry = cmd.AuthorCountry;
+                auth.AuthorBirthday = cmd.AuthorBirthday;
+            })
+            .ReturnsAsync(author);
+    }
+
 }

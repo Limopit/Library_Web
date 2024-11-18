@@ -11,15 +11,15 @@ public class AuthorRepository: BaseRepository<Author>, IAuthorRepository
     public async Task<List<Book>> GetAuthorBookListAsync(Guid id, CancellationToken token)
     {
         return await _libraryDbContext.books
-            .Where(b => b.author_id == id)
+            .Where(b => b.AuthorId == id)
             .ToListAsync(token);
     }
 
     public async Task<Author?> GetAuthorInfoByIdAsync(Guid id, CancellationToken token)
     { 
         return await _libraryDbContext.authors
-            .Include(auth => auth.books)
-            .FirstOrDefaultAsync(author => author.author_id == id,
+            .Include(auth => auth.Books)
+            .FirstOrDefaultAsync(author => author.AuthorId == id,
                 token);
     }
 
@@ -27,7 +27,7 @@ public class AuthorRepository: BaseRepository<Author>, IAuthorRepository
         int pageNumber, int pageSize, CancellationToken token)
     {
         return await _libraryDbContext.authors
-            .OrderBy(a => a.author_lastname)
+            .OrderBy(a => a.AuthorLastname)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync(token);

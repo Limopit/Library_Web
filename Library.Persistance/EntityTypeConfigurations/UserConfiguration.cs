@@ -18,9 +18,9 @@ public class UserConfiguration: IEntityTypeConfiguration<User>
             .HasColumnType("TEXT")
             .IsRequired();
         
-        builder.HasMany(user => user.borrowRecords)
-            .WithOne(record => record.user)
-            .HasForeignKey(record => record.userId);
+        builder.HasMany(user => user.BorrowRecords)
+            .WithOne(record => record.User)
+            .HasForeignKey(record => record.UserId);
         
         builder.HasMany(u => u.RefreshTokens)
             .WithOne(rt => rt.User)

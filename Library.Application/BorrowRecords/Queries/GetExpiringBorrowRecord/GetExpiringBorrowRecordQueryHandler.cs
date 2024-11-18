@@ -30,7 +30,7 @@ public class GetExpiringBorrowRecordQueryHandler: IRequestHandler<GetExpiringBor
 
         var expiredBookList = _mapper.Map<List<ExpiringBookDto>>(expiredBooks);
         
-        return new ExpiringRecordVm { records = expiredBookList };
+        return new ExpiringRecordVm { Records = expiredBookList };
         
     }
 }

@@ -16,4 +16,9 @@ public class MapperService: IMapperService
     {
         return _mapper.Map<TDestination>(source);
     }
+    
+    public async Task<TDestination> Update<TSource, TDestination>(TSource source, TDestination destination)
+    {
+        return _mapper.Map(source, destination); 
+    }
 }

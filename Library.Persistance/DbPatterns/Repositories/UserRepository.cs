@@ -1,6 +1,6 @@
 ﻿using Library.Application.Interfaces.Repositories;
+using Library.Application.Interfaces.Services;
 using Library.Domain;
-using Library.Persistance.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace Library.Persistance.DbPatterns.Repositories;
@@ -9,14 +9,12 @@ public class UserRepository: IUserRepository
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly ITokenService _tokenService;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public UserRepository(SignInManager<User> signInManager,
-        ITokenService tokenService, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+    public UserRepository(SignInManager<User> signInManager, 
+        UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
     {
         _signInManager = signInManager;
-        _tokenService = tokenService;
         _userManager = userManager;
         _roleManager = roleManager;
     }
@@ -39,16 +37,6 @@ public class UserRepository: IUserRepository
     public async Task<User?> FindUserById(string id)
     {
         return await _userManager.FindByIdAsync(id);
-    }
-
-    public async Task<(string accessToken, string refreshToken)> GenerateTokenForUser(User user, CancellationToken token)
-    {
-        return await _tokenService.GenerateTokens(user, _userManager, token);
-    }
-
-    public async Task<string> GenerateNewToken(User user)
-    {
-        return await _tokenService.GenerateNewToken(user, _userManager);
     }
 
     public async Task<bool> UserRoleExistsAsync(string role)

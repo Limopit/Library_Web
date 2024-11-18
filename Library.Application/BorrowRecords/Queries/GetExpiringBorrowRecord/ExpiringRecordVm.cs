@@ -2,5 +2,5 @@
 
 public class ExpiringRecordVm
 {
-    public IList<ExpiringBookDto> records { get; set; }
+    public IList<ExpiringBookDto> Records { get; set; }
 }

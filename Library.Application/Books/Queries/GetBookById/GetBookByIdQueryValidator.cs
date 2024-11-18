@@ -7,6 +7,6 @@ public class GetBookByIdQueryValidator: AbstractValidator<GetBookByIdQuery>
     public GetBookByIdQueryValidator()
     {
         RuleFor(command 
-            => command.book_id).NotEmpty().WithMessage("Id is required");
+            => command.BookId).NotEmpty().WithMessage("Id is required");
     }
 }

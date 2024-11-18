@@ -6,7 +6,7 @@ public class GetAuthorBooksListQueryValidator: AbstractValidator<GetAuthorBooksL
 {
     public GetAuthorBooksListQueryValidator()
     {
-        RuleFor(command => command.author_id).NotEmpty()
+        RuleFor(command => command.AuthorId).NotEmpty()
             .WithMessage("Id is required");
     }
 }

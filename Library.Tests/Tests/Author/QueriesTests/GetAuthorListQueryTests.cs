@@ -24,32 +24,32 @@ public class GetAuthorListQueryTests: BaseTestCommand
         var authorIdA = Guid.NewGuid();
         var expectedAuthorA = new Domain.Author
         {
-            author_id = authorIdA,
-            author_firstname = "Some",
-            author_lastname = "Author",
-            author_country = "Some Country",
+            AuthorId = authorIdA,
+            AuthorFirstname = "Some",
+            AuthorLastname = "Author",
+            AuthorCountry = "Some Country",
         };
         var authorIdB = Guid.NewGuid();
         var expectedAuthorB = new Domain.Author
         {
-            author_id = authorIdB,
-            author_firstname = "Not",
-            author_lastname = "Author",
-            author_country = "Some Country",
+            AuthorId = authorIdB,
+            AuthorFirstname = "Not",
+            AuthorLastname = "Author",
+            AuthorCountry = "Some Country",
         };
 
         var authorDtoA = new AuthorListDto()
         {
-            AuthorFirstname = expectedAuthorA.author_firstname,
-            AuthorId = expectedAuthorA.author_id,
-            AuthorLastname = expectedAuthorA.author_lastname
+            AuthorFirstname = expectedAuthorA.AuthorFirstname,
+            AuthorId = expectedAuthorA.AuthorId,
+            AuthorLastname = expectedAuthorA.AuthorLastname
         };
         
         var authorDtoB = new AuthorListDto()
         {
-            AuthorFirstname = expectedAuthorB.author_firstname,
-            AuthorId = expectedAuthorB.author_id,
-            AuthorLastname = expectedAuthorB.author_lastname
+            AuthorFirstname = expectedAuthorB.AuthorFirstname,
+            AuthorId = expectedAuthorB.AuthorId,
+            AuthorLastname = expectedAuthorB.AuthorLastname
         };
         
         var authors = new List<Domain.Author> { expectedAuthorA, expectedAuthorB };

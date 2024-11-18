@@ -27,11 +27,11 @@ public class DeleteAuthorCommandHandlerTests: BaseTestCommand
         var authorId = Guid.NewGuid();
         var expectedAuthor = new Domain.Author
         {
-            author_id = authorId,
-            author_firstname = "Some",
-            author_lastname = "Author",
-            author_country = "Some Country",
-            books = new List<Book>()
+            AuthorId = authorId,
+            AuthorFirstname = "Some",
+            AuthorLastname = "Author",
+            AuthorCountry = "Some Country",
+            Books = new List<Book>()
         };
 
         CancellationToken token = new CancellationToken();
@@ -40,7 +40,7 @@ public class DeleteAuthorCommandHandlerTests: BaseTestCommand
         _mocks.SetupRemoveAuthorAsync(expectedAuthor);
 
         //Act
-        var command = new DeleteAuthorCommand { author_id = expectedAuthor.author_id };
+        var command = new DeleteAuthorCommand { AuthorId = expectedAuthor.AuthorId };
         await _handler.Handle(command, token);
         
         //Assert
@@ -54,11 +54,11 @@ public class DeleteAuthorCommandHandlerTests: BaseTestCommand
         var authorId = Guid.NewGuid();
         var expectedAuthor = new Domain.Author
         {
-            author_id = authorId,
-            author_firstname = "Some",
-            author_lastname = "Author",
-            author_country = "Some Country",
-            books = new List<Book>()
+            AuthorId = authorId,
+            AuthorFirstname = "Some",
+            AuthorLastname = "Author",
+            AuthorCountry = "Some Country",
+            Books = new List<Book>()
         };
 
         CancellationToken token = new CancellationToken();
@@ -66,7 +66,7 @@ public class DeleteAuthorCommandHandlerTests: BaseTestCommand
         _mocks.SetupRemoveAuthorAsync(expectedAuthor);
 
         //Act & Assert
-        var command = new DeleteAuthorCommand { author_id = expectedAuthor.author_id };
+        var command = new DeleteAuthorCommand { AuthorId = expectedAuthor.AuthorId };
 
         await _handler
             .Invoking(async h => await h.Handle(command, CancellationToken.None))

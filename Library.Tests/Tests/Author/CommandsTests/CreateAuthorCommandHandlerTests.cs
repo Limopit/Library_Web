@@ -15,8 +15,8 @@ public class CreateAuthorCommandHandlerTests: BaseTestCommand
 
     public CreateAuthorCommandHandlerTests()
     {
-        _handler = new CreateAuthorCommandHandler(Context.UnitOfWorkMock.Object);
         _mocks = new AuthorMocks(Context.UnitOfWorkMock);
+        _handler = new CreateAuthorCommandHandler(Context.UnitOfWorkMock.Object, _mocks._mapperMock.Object);
     }
     
     [Fact]
@@ -25,21 +25,21 @@ public class CreateAuthorCommandHandlerTests: BaseTestCommand
         //Arrange
         var command = new CreateAuthorCommand
         {
-            author_firstname = "Some",
-            author_lastname = "Author",
-            author_birthday = new DateTime(1990, 1, 1),
-            author_country = "Some Country",
-            books = new List<Book>()
+            AuthorFirstname = "Some",
+            AuthorLastname = "Author",
+            AuthorBirthday = new DateTime(1990, 1, 1),
+            AuthorCountry = "Some Country",
+            Books = new List<Book>()
         };
         
         var cancellationToken = new CancellationToken();
         
-        _mocks.SetupAddAuthorAsync(new Domain.Author
+        _mocks.SetupAddAuthorAsync(command, new Domain.Author
         {
-            author_firstname = command.author_firstname,
-            author_lastname = command.author_lastname,
-            author_birthday = command.author_birthday,
-            author_country = command.author_country,
+            AuthorFirstname = command.AuthorFirstname,
+            AuthorLastname = command.AuthorLastname,
+            AuthorBirthday = command.AuthorBirthday,
+            AuthorCountry = command.AuthorCountry,
         }, cancellationToken);
 
         Context.SetupSaveChangesAsync(1, cancellationToken);
@@ -49,10 +49,10 @@ public class CreateAuthorCommandHandlerTests: BaseTestCommand
 
         // Assert
         _mocks.AuthorRepositoryMock.Verify(repo => repo.AddEntityAsync(It.Is<Domain.Author>(a =>
-            a.author_firstname == command.author_firstname &&
-            a.author_lastname == command.author_lastname &&
-            a.author_birthday == command.author_birthday &&
-            a.author_country == command.author_country), cancellationToken), Times.Once);
+            a.AuthorFirstname == command.AuthorFirstname &&
+            a.AuthorLastname == command.AuthorLastname &&
+            a.AuthorBirthday == command.AuthorBirthday &&
+            a.AuthorCountry == command.AuthorCountry), cancellationToken), Times.Once);
         
         Context.UnitOfWorkMock.Verify(uow => uow.SaveChangesAsync(cancellationToken), Times.Once);
 

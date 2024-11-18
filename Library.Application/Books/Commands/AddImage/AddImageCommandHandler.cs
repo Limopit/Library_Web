@@ -23,13 +23,13 @@ public class AddImageCommandHandler: IRequestHandler<AddImageCommand>
             throw new NotFoundException(nameof(Book), request.BookId);
         }
         
-        if (!string.IsNullOrEmpty(book.imageUrls))
+        if (!string.IsNullOrEmpty(book.ImageUrls))
         {
-            book.imageUrls += " " + request.ImagePath;
+            book.ImageUrls += " " + request.ImagePath;
         }
         else
         {
-            book.imageUrls = request.ImagePath;
+            book.ImageUrls = request.ImagePath;
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

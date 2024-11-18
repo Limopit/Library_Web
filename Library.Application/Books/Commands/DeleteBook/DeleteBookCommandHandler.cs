@@ -14,11 +14,11 @@ public class DeleteBookCommandHandler: IRequestHandler<DeleteBookCommand>
 
     public async Task Handle(DeleteBookCommand request, CancellationToken cancellationToken)
     {
-        var book = await _unitOfWork.Books.GetEntityByIdAsync(request.book_id, cancellationToken);
+        var book = await _unitOfWork.Books.GetEntityByIdAsync(request.BookId, cancellationToken);
         
-        if (book == null || book.book_id != request.book_id)
+        if (book == null || book.BookId != request.BookId)
         {
-            throw new NotFoundException(nameof(Book), request.book_id);
+            throw new NotFoundException(nameof(Book), request.BookId);
         }
 
         await _unitOfWork.Books.RemoveEntity(book);

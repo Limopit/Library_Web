@@ -9,8 +9,6 @@ public interface IUserRepository
     Task<SignInResult?> SignInAsync(string email, string password, bool isPersistent, bool lockoutOnFailure);
     Task<User?> FindUserByEmail(string email);
     Task<User?> FindUserById(string id);
-    Task<(string accessToken, string refreshToken)> GenerateTokenForUser(User user, CancellationToken token);
-    Task<string> GenerateNewToken(User user);
     Task<bool> UserRoleExistsAsync(string role);
     Task<IdentityResult?> GiveRoleAsync(User user, string role);
     Task<IdentityResult?> ClearUserRolesAsync(User user);
