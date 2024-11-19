@@ -1,4 +1,5 @@
-﻿using Library.Application.Interfaces;
+﻿using Library.Application.Common.Exceptions;
+using Library.Application.Interfaces;
 using Library.Domain;
 using MediatR;
 
@@ -20,7 +21,7 @@ public class RegisterUserCommandHandler: IRequestHandler<RegisterUserCommand, st
         
         if (!await _unitOfWork.Users.UserRoleExistsAsync(request.Role))
         {
-            throw new Exception("Role doesn`t exist");
+            throw new RoleAssignmentException(request.Role, " does not exist");
         }
         
         var result = await _unitOfWork.Users.AddUserAsync(user, request.Password);

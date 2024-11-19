@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Library.Application.Interfaces;
 using Library.Application.Interfaces.Repositories;
-using Library.Application.Interfaces.Services;
 using Library.Domain;
 using Library.Persistance.DbPatterns.Repositories;
 using Microsoft.AspNetCore.Identity;
@@ -17,22 +16,13 @@ public class UnitOfWork: IUnitOfWork
     public IRefreshTokenRepository RefreshTokens { get; }
 
     private readonly LibraryDBContext _context;
-    private readonly IMapper _mapper;
-    private readonly UserManager<User> _userManager;
-    private readonly SignInManager<User> _signInManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
-
-    public UnitOfWork(LibraryDBContext context, IMapper mapper,
+    public UnitOfWork(LibraryDBContext context,
         UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
     {
         _context = context;
-        _mapper = mapper;
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _roleManager = roleManager;
         Authors = new AuthorRepository(_context);
         Books = new BookRepository(_context);
-        Users = new UserRepository(_signInManager, _userManager, _roleManager);
+        Users = new UserRepository(signInManager, userManager, roleManager);
         BorrowRecords = new BorrowRecordRepository(_context);
         RefreshTokens = new RefreshTokenRepository(_context);
     }

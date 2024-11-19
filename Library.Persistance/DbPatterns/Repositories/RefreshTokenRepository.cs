@@ -1,5 +1,6 @@
 ﻿using Library.Application.Interfaces.Repositories;
 using Library.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Persistance.DbPatterns.Repositories;
 
@@ -19,15 +20,14 @@ public class RefreshTokenRepository: IRefreshTokenRepository
 
     public async Task<RefreshToken?> ValidateRefreshToken(string refreshToken)
     {
-        return _libraryDbContext.RefreshTokens
-            .Where(r => r.Token == refreshToken)
-            .AsEnumerable()
-            .FirstOrDefault(r => r.IsActive);
+        return await _libraryDbContext.RefreshTokens
+            .Where(r => r.Token == refreshToken && r.Expires > DateTime.UtcNow)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<RefreshToken?> RevokeToken(string refreshToken)
     {
-        return _libraryDbContext.RefreshTokens
-            .SingleOrDefault(t => t.Token == refreshToken);
+        return await _libraryDbContext.RefreshTokens
+            .SingleOrDefaultAsync(t => t.Token == refreshToken);
     }
 }

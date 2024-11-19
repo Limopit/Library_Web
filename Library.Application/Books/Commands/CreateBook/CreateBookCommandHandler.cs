@@ -30,7 +30,7 @@ public class CreateBookCommandHandler: IRequestHandler<CreateBookCommand, Guid>
 
         var ISBNCheck = await _unitOfWork.Books.GetBookByISBNAsync(request.ISBN, cancellationToken);
 
-        if (ISBNCheck != null) throw new Exception("Such ISBN already exists");
+        if (ISBNCheck != null) throw new AlreadyExistsException(nameof(Book), request.ISBN);
         
         await _unitOfWork.Books.AddEntityAsync(book, cancellationToken);
         _unitOfWork.Books.AddBookToAuthor(author, book);

@@ -31,7 +31,7 @@ public class CreateBorrowRecordCommandHandler: IRequestHandler<CreateBorrowRecor
 
         if (record != null && record.BookIssueExpirationDate > DateTime.Now)
         {
-            throw new Exception("Book is issued already, come back later");
+            throw new AlreadyExistsException(nameof(BorrowRecord), record.BookIssueExpirationDate);
         }
 
         var user = await _unitOfWork.Users.FindUserByEmail(request.Email);

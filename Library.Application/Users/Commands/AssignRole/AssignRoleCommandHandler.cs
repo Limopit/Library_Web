@@ -26,7 +26,7 @@ public class AssignRoleCommandHandler: IRequestHandler<AssignRoleCommand, bool>
         var removeResult = await _unitOfWork.Users.ClearUserRolesAsync(user);
         if (!removeResult.Succeeded)
         {
-            throw new Exception("Failed to remove user roles");
+            throw new RoleAssignmentException("", "is failed to remove");
         }
         
         var addResult = await _unitOfWork.Users.GiveRoleAsync(user, request.Role);
