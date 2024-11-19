@@ -18,7 +18,7 @@ public class BorrowRecordRepository: BaseRepository<BorrowRecord>, IBorrowRecord
     {
         var currentDate = DateTime.UtcNow;
 
-        return await _libraryDbContext.books
+        return await _libraryDbContext.Books
             .Include(book => book.BorrowRecords)
             .Where(book => book.BorrowRecords.Any(record =>
                 record.UserId == userId &&

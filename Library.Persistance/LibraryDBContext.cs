@@ -8,8 +8,8 @@ namespace Library.Persistance;
 
 public sealed class LibraryDBContext: IdentityDbContext<User>, ILibraryDBContext
 {
-    public DbSet<Book> books { get; set; }
-    public DbSet<Author> authors { get; set; }
+    public DbSet<Book> Books { get; set; }
+    public DbSet<Author> Authors { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<BorrowRecord> BorrowRecords { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }

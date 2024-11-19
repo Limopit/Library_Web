@@ -23,7 +23,7 @@ public class RefreshTokenCommandHandler: IRequestHandler<RefreshTokenCommand, st
     
     public async Task<string> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var validatedToken = await _unitOfWork.RefreshTokens.ValidateRefreshToken(request.refreshToken);
+        var validatedToken = await _unitOfWork.RefreshTokens.ValidateRefreshToken(request.RefreshToken);
         
         if (validatedToken == null)
         {
@@ -37,11 +37,11 @@ public class RefreshTokenCommandHandler: IRequestHandler<RefreshTokenCommand, st
         var newJWT =
             await _tokenService.GenerateNewToken(user, _userManager);
         
-        var token = await _unitOfWork.RefreshTokens.RevokeToken(request.refreshToken);
+        var token = await _unitOfWork.RefreshTokens.RevokeToken(request.RefreshToken);
         
         if (token == null)
         {
-            throw new NotFoundException(nameof(RefreshToken), request.refreshToken);
+            throw new NotFoundException(nameof(RefreshToken), request.RefreshToken);
         }
         
         token.Revoked = DateTime.UtcNow;

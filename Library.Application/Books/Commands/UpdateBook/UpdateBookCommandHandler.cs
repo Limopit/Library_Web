@@ -28,7 +28,7 @@ public class UpdateBookCommandHandler: IRequestHandler<UpdateBookCommand>
         
         var ISBNCheck = await _unitOfWork.Books.GetBookByISBNAsync(request.ISBN, cancellationToken);
 
-        if (ISBNCheck != null) throw new Exception("Such ISBN already exists");
+        if (ISBNCheck != null) throw new AlreadyExistsException(nameof(Book), request.ISBN);
 
         await _mapper.Update(request, book);
         await _unitOfWork.Books.UpdateAsync(book);

@@ -22,7 +22,7 @@ public class CustomExceptionHandler
         }
     }
 
-    private Task HandleExceptionAsync(HttpContext context, Exception e)
+    private async Task HandleExceptionAsync(HttpContext context, Exception e)
     {
         var code = HttpStatusCode.InternalServerError;
         var result = string.Empty;
@@ -38,6 +38,12 @@ public class CustomExceptionHandler
             case NotFoundException nfe:
                 code = HttpStatusCode.NotFound;
                 break;
+            case AlreadyExistsException aee:
+                code = HttpStatusCode.BadRequest;
+                break;
+            case RoleAssignmentException rae:
+                code = HttpStatusCode.BadRequest;
+                break;
         }
 
         context.Response.ContentType = "application/json";
@@ -48,6 +54,6 @@ public class CustomExceptionHandler
             result = JsonSerializer.Serialize(new { err = e.Message });
         }
 
-        return context.Response.WriteAsync(result);
+        await context.Response.WriteAsync(result);
     }
 }

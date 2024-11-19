@@ -5,8 +5,8 @@ namespace Library.Application.Interfaces;
 
 public interface ILibraryDBContext
 {
-    DbSet<Book> books { get; set; }
-    DbSet<Author> authors { get; set; }
+    DbSet<Book> Books { get; set; }
+    DbSet<Author> Authors { get; set; }
     DbSet<User> Users { get; set; }
     DbSet<BorrowRecord> BorrowRecords { get; set; }
     DbSet<RefreshToken> RefreshTokens { get; set; }

@@ -2,10 +2,12 @@ using System.Reflection;
 using Library.Application;
 using Library.Application.Common.Mappings;
 using Library.Application.Interfaces;
+using Library.Domain;
 using Library.Identity;
 using Library.Persistance;
 using Library.Persistance.Dependencies;
 using Library.WebAPI.Middleware;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Quartz;
 
@@ -71,6 +73,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
 builder.Services.AddQuartz();
 
 var app = builder.Build();
@@ -81,7 +84,9 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = serviceProvider.GetRequiredService<LibraryDBContext>();
-        DBInitializer.Initialize(context);
+        var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        await DBInitializer.Initialize(context, userManager, roleManager);
     }
     catch (Exception ex)
     {
